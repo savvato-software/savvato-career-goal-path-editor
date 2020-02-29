@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>career-goals</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<span *ngFor="let cg of getAllCareerGoals()">{{cg.name}}</span> <!-- WILO... here.. see if the list is displayed.. then do a big commit.. -->
+
+<ion-content>
+	<ion-button class="" (click)="onNewCareerGoalBtnClick()">Go Back</ion-button>	
+</ion-content>
