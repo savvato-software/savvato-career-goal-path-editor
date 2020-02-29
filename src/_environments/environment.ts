@@ -1,13 +1,13 @@
 
 export const domainInfo = {
-  domain: '104.248.2.175',
+  domain: 'localhost',
   port: '8080'
 };
 
 export const domainPort = domainInfo.domain + ':' + domainInfo.port;
 
 export const environment = {
-  production: true,
+  production: false,
   domainPort: domainPort,
   apiUrl: 'http://' + domainPort
 };
