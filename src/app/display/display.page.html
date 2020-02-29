@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Display</ion-title>
+  </ion-toolbar>
+  <ion-button class="" (click)="onEditBtnClicked()">Edit Tech Profile</ion-button>
+</ion-header>
+
+<ion-content>
+  <lib-dtim-techprofile-component [ctrl]="getDtimTechprofileComponentController()"></lib-dtim-techprofile-component>
+</ion-content>
