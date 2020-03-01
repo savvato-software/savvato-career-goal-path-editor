@@ -6,20 +6,39 @@ import { environment } from '../../../_environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class MilestonesService {
+export class PathsService {
 
 	constructor(private _apiService: ApiService) { 
 
 	}
 
-	getMilestoneById(id) {
-      let url = environment.apiUrl + "/api/milestone/" + id;
+	getPathById(id) {
+      let url = environment.apiUrl + "/api/path/" + id;
 
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
           (data) => {
-            console.log("Call to getMilestoneById(" + id + ") returned")
+            console.log("Call to getPathById(" + id + ") returned")
+            console.log(data)
+            resolve(data);
+          }, (err) => {
+            reject(err);
+          });
+        }
+      );
+
+      return rtn;
+  	}
+
+	getAllPaths() {
+      let url = environment.apiUrl + "/api/path/"
+
+      let rtn = new Promise(
+        (resolve, reject) => {
+        this._apiService.getUnsecuredAPI(url).subscribe(
+          (data) => {
+            console.log("Call to getAllPaths() returned")
             console.log(data)
             resolve(data);
           }, (err) => {
@@ -31,22 +50,4 @@ export class MilestonesService {
       return rtn;
   }
 
-	getAllMilestones() {
-      let url = environment.apiUrl + "/api/milestone/"
-
-      let rtn = new Promise(
-        (resolve, reject) => {
-        this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
-            console.log("Call to getAllMilestones() returned")
-            console.log(data)
-            resolve(data);
-          }, (err) => {
-            reject(err);
-          });
-        }
-      );
-
-      return rtn;
-  }
 }

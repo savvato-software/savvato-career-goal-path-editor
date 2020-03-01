@@ -4,6 +4,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<span *ngFor="let m of getAllMilestones()">{{m.name}}</span>
 
+<ion-content>
+	<ion-button class="" (click)="onNewMilestoneBtnClick()">New Milestone</ion-button>	
 </ion-content>

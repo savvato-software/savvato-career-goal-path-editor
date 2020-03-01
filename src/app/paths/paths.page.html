@@ -4,6 +4,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<span *ngFor="let p of getAllPaths()">{{p.name}}</span>
 
+<ion-content>
+	<ion-button class="" (click)="onNewPathBtnClick()">New Path</ion-button>	
 </ion-content>
