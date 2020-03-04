@@ -33,4 +33,8 @@ export class CareerGoalsPage implements OnInit {
   	return this.careerGoals;
   }
 
+  onCareerGoalClick(cg) {
+	this._router.navigate(['/career-goals/display/' + cg['id']]);  	
+  }
+
 }

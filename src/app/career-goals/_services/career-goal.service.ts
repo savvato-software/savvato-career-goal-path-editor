@@ -49,4 +49,18 @@ export class CareerGoalService {
 
       return rtn;
   }
+
+  save(careerGoal, pathAssociations) {
+    let url = environment.apiUrl + '/api/careergoal/save'
+
+    return new Promise(
+      (resolve, reject) => {
+        this._apiService.postUnsecuredAPI2(url, {careergoal: careerGoal, pathassociations: pathAssociations}).subscribe(
+          (data) => {
+            resolve(data)
+          }, (err) => {
+            reject(err)
+          });
+      });
+  }
 }

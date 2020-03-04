@@ -9,8 +9,16 @@ const routes: Routes = [
     component: CareerGoalsPage
   },
   {
-    path: 'edit',
+    path: 'edit/new',
     loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
+  {
+    path: 'edit/:careerGoalId',
+    loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
+  {
+    path: 'display/:careerGoalId',
+    loadChildren: () => import('./display/display.module').then( m => m.DisplayPageModule)
   }
 ];
 

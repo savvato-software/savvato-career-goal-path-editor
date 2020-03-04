@@ -9,4 +9,13 @@
 		<ion-label position="floating">Name:</ion-label>
 		<ion-input data-test="career-goals-edit-input" (ionInput)="onNameChange($event)" [value]="getCareerGoalName()" required></ion-input>
 	</ion-item>
+	<hr>
+	<ion-item>Select the Paths which make up this Career Goal:</ion-item>
+	<ion-item *ngFor="let path of getPaths()">
+		<ion-label>{{ path['name'] }}</ion-label>
+		<ion-checkbox slot="start" (ionFocus)="onPathSelectionChanged($event)" [(ngModel)]="path.isSelected"></ion-checkbox>
+	</ion-item>
+	<br/>
+	<ion-button class="" [disabled]="!isSaveBtnEnabled()" (click)="onSaveBtnClick()">Save</ion-button>
+	<ion-button class="" (click)="onCancelBtnClick()">Cancel</ion-button>
 </ion-content>

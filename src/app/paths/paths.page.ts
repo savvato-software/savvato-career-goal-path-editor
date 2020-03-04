@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { PathsService } from './_services/paths.service'
+import { PathsService } from '../_services/paths.service'
 
 @Component({
   selector: 'app-paths',
