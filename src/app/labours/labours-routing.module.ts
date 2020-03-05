@@ -9,8 +9,16 @@ const routes: Routes = [
     component: LaboursPage
   },
   {
-    path: 'edit',
+    path: 'edit/new',
     loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
+  {
+    path: 'edit/:labourId',
+    loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
+  {
+    path: 'display/:labourId',
+    loadChildren: () => import('./display/display.module').then( m => m.DisplayPageModule)
   }
 ];
 

@@ -9,8 +9,16 @@ const routes: Routes = [
     component: MilestonesPage
   },
   {
-    path: 'edit',
+    path: 'edit/new',
     loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
+  {
+    path: 'edit/:milestoneId',
+    loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
+  {
+    path: 'display/:milestoneId',
+    loadChildren: () => import('./display/display.module').then( m => m.DisplayPageModule)
   }
 ];
 

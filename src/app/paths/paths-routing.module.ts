@@ -9,8 +9,16 @@ const routes: Routes = [
     component: PathsPage
   },
   {
-    path: 'edit',
+    path: 'edit/new',
     loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
+  {
+    path: 'edit/:pathId',
+    loadChildren: () => import('./edit/edit.module').then( m => m.EditPageModule)
+  },
+  {
+    path: 'display/:pathId',
+    loadChildren: () => import('./display/display.module').then( m => m.DisplayPageModule)
   }
 ];
 

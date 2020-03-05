@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { LabourService } from './_services/labour.service'
+import { LaboursService } from '../_services/labours.service'
 
 @Component({
   selector: 'app-labours',
@@ -16,14 +16,14 @@ export class LaboursPage implements OnInit {
 	constructor(private _location: Location,
 		    private _router: Router,
 		    private _route: ActivatedRoute,
-		    private _labourService: LabourService) {
+		    private _laboursService: LaboursService) {
 
 	}
 
   ngOnInit() {
 	let self = this;
 	self._route.params.subscribe((params) => {
-		self._labourService.getAllLabours().then((labours) => {
+		self._laboursService.getAllLabours().then((labours) => {
 			self.labours = labours;
 		})
 	})
@@ -32,4 +32,9 @@ export class LaboursPage implements OnInit {
   getAllLabours() {
   	return this.labours;
   }
+
+  onLabourClick(l) {
+	this._router.navigate(['/labours/display/' + l['id']]);
+  }
+
 }

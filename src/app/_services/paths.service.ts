@@ -32,7 +32,7 @@ export class PathsService {
   	}
 
 	getAllPaths() {
-      let url = environment.apiUrl + "/api/path/"
+      let url = environment.apiUrl + "/api/path/all"
 
       let rtn = new Promise(
         (resolve, reject) => {
@@ -48,6 +48,20 @@ export class PathsService {
       );
 
       return rtn;
+  }
+
+  save(path, milestoneAssociations) {
+    let url = environment.apiUrl + '/api/path/save'
+
+    return new Promise(
+      (resolve, reject) => {
+        this._apiService.postUnsecuredAPI2(url, {path: path, milestoneassociations: milestoneAssociations}).subscribe(
+          (data) => {
+            resolve(data)
+          }, (err) => {
+            reject(err)
+          });
+      });
   }
 
 }

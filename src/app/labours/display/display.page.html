@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>display</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-card>
+		<ion-card-header>
+		    <ion-card-title>Labour: </ion-card-title>
+		    <ion-card-title>{{getLabourName()}}</ion-card-title>
+			<ion-button class="" (click)="onEditLabourBtnClick()">Edit</ion-button>
+		</ion-card-header>
+
+		<ion-card-content class="blueBackground">
+			<span class="questionText" *ngFor="let q of getQuestions()" (click)="onQuestionClicked(q)">
+				{{ q.text }}<br/>
+				{{ q.description }}<br/>
+				<br/><br/>
+			</span>
+		</ion-card-content>
+	</ion-card>
+
+</ion-content>

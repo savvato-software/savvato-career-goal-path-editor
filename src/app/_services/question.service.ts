@@ -12,6 +12,25 @@ export class QuestionService {
 
 	}
 
+  getAllQuestions() {
+    let url = environment.apiUrl + "/api/question/all"
+
+    let rtn = new Promise(
+      (resolve, reject) => {
+      this._apiService.getUnsecuredAPI(url).subscribe(
+        (data) => {
+          console.log("Call to getAllQuestions() returned")
+          console.log(data)
+          resolve(data);
+        }, (err) => {
+          reject(err);
+        });
+      }
+    );
+
+    return rtn;
+  }
+
   getLineItemLevelAssociations(questionId) {
     let url = environment.apiUrl + "/api/question/" + questionId + "/lineitem/levels";
 

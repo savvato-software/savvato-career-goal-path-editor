@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../../_services/api.service'
+import { ApiService } from '../_services/api.service'
 
-import { environment } from '../../../_environments/environment';
+import { environment } from '../../_environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LabourService {
+export class LaboursService {
 
 	constructor(private _apiService: ApiService) { 
 
@@ -32,7 +32,7 @@ export class LabourService {
   }
 
 	getAllLabours() {
-      let url = environment.apiUrl + "/api/labour/"
+      let url = environment.apiUrl + "/api/labour/all"
 
       let rtn = new Promise(
         (resolve, reject) => {
@@ -49,4 +49,19 @@ export class LabourService {
 
       return rtn;
   }
+
+  save(labour, questionAssociations) {
+    let url = environment.apiUrl + '/api/labour/save'
+
+    return new Promise(
+      (resolve, reject) => {
+        this._apiService.postUnsecuredAPI2(url, {labour: labour, questionassociations: questionAssociations}).subscribe(
+          (data) => {
+            resolve(data)
+          }, (err) => {
+            reject(err)
+          });
+      });
+  }
+
 }

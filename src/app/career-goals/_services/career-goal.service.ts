@@ -32,7 +32,7 @@ export class CareerGoalService {
   }
 
 	getAllCareerGoals() {
-      let url = environment.apiUrl + "/api/careergoal/"
+      let url = environment.apiUrl + "/api/careergoal/all"
 
       let rtn = new Promise(
         (resolve, reject) => {

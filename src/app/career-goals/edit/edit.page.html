@@ -15,7 +15,8 @@
 		<ion-label>{{ path['name'] }}</ion-label>
 		<ion-checkbox slot="start" (ionFocus)="onPathSelectionChanged($event)" [(ngModel)]="path.isSelected"></ion-checkbox>
 	</ion-item>
-	<br/>
+</ion-content>
+<ion-footer>
 	<ion-button class="" [disabled]="!isSaveBtnEnabled()" (click)="onSaveBtnClick()">Save</ion-button>
 	<ion-button class="" (click)="onCancelBtnClick()">Cancel</ion-button>
-</ion-content>
+</ion-footer>

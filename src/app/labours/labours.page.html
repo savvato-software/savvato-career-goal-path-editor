@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<span *ngFor="let l of getAllLabours()">{{l.name}}</span>
+<span *ngFor="let l of getAllLabours()" (click)="onLabourClick(l)">{{l.name}}</span>
 
 <ion-content>
 	<ion-button class="" (click)="onNewLabourBtnClick()">New Labour</ion-button>	

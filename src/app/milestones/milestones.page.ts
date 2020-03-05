@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { MilestonesService } from './_services/milestones.service'
+import { MilestonesService } from '../_services/milestones.service'
 
 @Component({
   selector: 'app-milestones',
@@ -31,5 +31,9 @@ export class MilestonesPage implements OnInit {
 
   getAllMilestones() {
   	return this.milestones;
+  }
+
+  onMilestoneClick(m) {
+	this._router.navigate(['/milestones/display/' + m['id']]);
   }
 }

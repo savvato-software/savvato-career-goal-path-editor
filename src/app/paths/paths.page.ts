@@ -32,4 +32,8 @@ export class PathsPage implements OnInit {
   getAllPaths() {
   	return this.paths;
   }
+
+  onPathClick(p) {
+	this._router.navigate(['/paths/display/' + p['id']]);
+  }
 }

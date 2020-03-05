@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../../_services/api.service'
+import { ApiService } from './api.service'
 
-import { environment } from '../../../_environments/environment';
+import { environment } from '../../_environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +32,8 @@ export class MilestonesService {
   }
 
 	getAllMilestones() {
-      let url = environment.apiUrl + "/api/milestone/"
-
+      let url = environment.apiUrl + "/api/milestone/all"
+ 
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
@@ -48,5 +48,19 @@ export class MilestonesService {
       );
 
       return rtn;
+  }
+
+  save(milestone, labourAssociations) {
+    let url = environment.apiUrl + '/api/milestone/save'
+
+    return new Promise(
+      (resolve, reject) => {
+        this._apiService.postUnsecuredAPI2(url, {milestone: milestone, labourassociations: labourAssociations}).subscribe(
+          (data) => {
+            resolve(data)
+          }, (err) => {
+            reject(err)
+          });
+      });
   }
 }
