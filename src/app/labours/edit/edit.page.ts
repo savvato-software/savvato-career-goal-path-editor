@@ -25,6 +25,8 @@ export class EditPage implements OnInit {
 	selectedTopicFilterValue = undefined;
 	selectedLineItemFilterValue = undefined;
 
+	onlyShowSelectedFilter = false;
+
 	constructor(private _location: Location,
 			    private _router: Router,
 			    private _route: ActivatedRoute,
@@ -79,7 +81,25 @@ export class EditPage implements OnInit {
 	}
 
 	getQuestions() {
-		return this.questions || []
+		if (this.questions) {
+			let rtn = this.questions.sort((a,b) => {
+				if (a['isSelected'] && !b['isSelected']) {
+					return -1;
+				} else if (!a['isSelected'] && b['isSelected']) {
+					return 1;
+				}
+
+				return a['text'].localeCompare(b['text'])
+			});
+
+			if (this.onlyShowSelectedFilter === true) {
+				rtn = rtn.filter((q) => q['isSelected']);
+			}
+
+			return rtn;
+		} else {
+			return [];
+		}
 	}
 
 	onNameChange(evt) {
@@ -144,6 +164,10 @@ export class EditPage implements OnInit {
 
 	isResetFilterBtnEnabled() {
 		return !!this.selectedTopicFilterValue;
+	}
+
+	onOnlyShowSelectedFilterBtnClick() {
+		this.onlyShowSelectedFilter = !this.onlyShowSelectedFilter;
 	}
 
 	onResetFilterBtnClick() {

@@ -14,6 +14,8 @@
 			</ion-select>
 		</ion-item>
 		<ion-button class="" [disabled]="!isResetFilterBtnEnabled()" (click)="onResetFilterBtnClick()">Reset Filter</ion-button>
+		<ion-button *ngIf="!onlyShowSelectedFilter" class="" (click)="onOnlyShowSelectedFilterBtnClick()">Only Show Selected</ion-button>
+		<ion-button *ngIf="onlyShowSelectedFilter" class="" (click)="onOnlyShowSelectedFilterBtnClick()">Show All</ion-button>
 	</ion-toolbar>
 </ion-header>
 
