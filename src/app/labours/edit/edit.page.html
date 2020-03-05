@@ -1,7 +1,20 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Edit Labour</ion-title>
-  </ion-toolbar>
+	<ion-toolbar>
+		<ion-title>Edit Labour</ion-title>
+		<ion-item>
+			<ion-label>Topic</ion-label>
+			<ion-select placeholder="Select One" interface="popover" [(ngModel)]="selectedTopicFilterValue" (ionChange)="onTopicFilterChange($event)">
+				<ion-select-option *ngFor="let topic of getTechProfileTopics()" [value]="getFilterValue(topic)">{{topic.name}}</ion-select-option>
+			</ion-select>
+		</ion-item>
+		<ion-item *ngIf="techProfileTopicFilterIsSet()">
+			<ion-label>Line Item</ion-label>
+			<ion-select placeholder="Select One" interface="popover" (ionChange)="onLineItemFilterChange($event)">
+				<ion-select-option *ngFor="let lineitem of getLineItemsOfTheSelectedTechProfileTopic()" [value]="getFilterValue(lineitem)">{{lineitem.name.substring(0,35)}}</ion-select-option>
+			</ion-select>
+		</ion-item>
+		<ion-button class="" [disabled]="!isResetFilterBtnEnabled()" (click)="onResetFilterBtnClick()">Reset Filter</ion-button>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -10,7 +23,10 @@
 		<ion-input data-test="labour-edit-input" (ionInput)="onNameChange($event)" [value]="getLabourName()" required></ion-input>
 	</ion-item>
 	<hr>
-	<ion-item>Select the questions which make up this Labour:</ion-item>
+	<ion-item *ngIf="getQuestions().length === 0">
+		<span class="redText">There are no questions which match that filter!</span>
+	</ion-item>
+	<ion-item *ngIf="getQuestions().length > 0">Select the questions which make up this Labour:</ion-item>
 	<ion-item *ngFor="let question of getQuestions()">
 		<ion-label>{{ question['text'] }}</ion-label>
 		<ion-checkbox slot="start" (ionFocus)="onQuestionSelectionChanged($event)" [(ngModel)]="question.isSelected"></ion-checkbox>

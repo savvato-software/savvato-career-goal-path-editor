@@ -19,8 +19,6 @@ export class QuestionService {
       (resolve, reject) => {
       this._apiService.getUnsecuredAPI(url).subscribe(
         (data) => {
-          console.log("Call to getAllQuestions() returned")
-          console.log(data)
           resolve(data);
         }, (err) => {
           reject(err);
@@ -76,23 +74,6 @@ export class QuestionService {
     return rtn;
   }
 
-  getAll() {
-      let url = environment.apiUrl + "/api/question/all";
-
-      let rtn = new Promise(
-        (resolve, reject) => {
-        this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
-            resolve(data);
-          }, (err) => {
-            reject(err);
-          });
-        }
-      );
-
-      return rtn;
-  }
-
   getQuestionById(id) {
       let url = environment.apiUrl + "/api/question/" + id;
 
@@ -112,7 +93,42 @@ export class QuestionService {
       return rtn;
   }
 
+  getByTopic(topicId) {
+      let url = environment.apiUrl + "/api/techprofile/topic/" + topicId + "/questions";
+
+      let rtn = new Promise(
+        (resolve, reject) => {
+        this._apiService.getUnsecuredAPI(url).subscribe(
+          (data) => {
+            resolve(data);
+          }, (err) => {
+            reject(err);
+          });
+        }
+      );
+
+      return rtn;
+  }
+
+  getByLineItem(lineItemId) {
+      let url = environment.apiUrl + "/api/techprofile/lineitem/" + lineItemId + "/questions";
+
+      let rtn = new Promise(
+        (resolve, reject) => {
+        this._apiService.getUnsecuredAPI(url).subscribe(
+          (data) => {
+            resolve(data);
+          }, (err) => {
+            reject(err);
+          });
+        }
+      );
+
+      return rtn;
+  }
+
   getByLineItemAndLevel(lineItemId, levelIdx) {
+      // TODO: Change this to api/techprofile/lineitem/ID/level/ID/questions
       let url = environment.apiUrl + "/api/question/" + lineItemId + "/" + levelIdx;
 
       let rtn = new Promise(

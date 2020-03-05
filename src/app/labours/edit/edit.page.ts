@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 
 import { LaboursService } from '../../_services/labours.service'
 import { QuestionService } from '../../_services/question.service'
+import { TechProfileModelService } from '../../_services/tech-profile-model.service'
 
 @Component({
   selector: 'app-edit',
@@ -18,10 +19,17 @@ export class EditPage implements OnInit {
 	labour = undefined;
 	questions = undefined;
 
+	techProfileTopicFilter = undefined;
+	techProfileLineItemFilter = undefined;
+
+	selectedTopicFilterValue = undefined;
+	selectedLineItemFilterValue = undefined;
+
 	constructor(private _location: Location,
 			    private _router: Router,
 			    private _route: ActivatedRoute,
 			    private _questionsService: QuestionService,
+			    private _techProfileModelService: TechProfileModelService,
 			    private _labourService: LaboursService) {
 
 	}
@@ -40,18 +48,22 @@ export class EditPage implements OnInit {
 					self.isNew = false;
 
 					self._questionsService.getAllQuestions().then((allQuestions: [{}]) => {
-						self.questions = allQuestions.map(
-							(l) => { 
-								l['isSelected'] = self.labour['questions']
-									.map((l1) => l1['id'])
-									.includes(l['id'])
-								return l;
-							}
-						);
+						self.questions = self.setIsSelected(allQuestions, self.labour['questions']);
 					});
 				});
 			}
 		});
+
+		self._techProfileModelService._init();
+	}
+
+	setIsSelected(array1, array2) {
+		return array1.map(
+			(val) => { 
+				val['isSelected'] = array2.map((val2) => val2['id']).includes(val['id'])
+				return val;
+			}
+		);
 	}
 
 	isDirty() {
@@ -75,12 +87,48 @@ export class EditPage implements OnInit {
 		this.setDirty();
 	}
 
-	isSaveBtnEnabled() {
-		return this.isDirty() && this.questions.find((question) => question && question['isSelected']);
+	onQuestionSelectionChanged(evt) {
+		this.setDirty();
 	}
 
-	onMilestoneSelectionChanged(evt) {
-		this.setDirty();
+	getTechProfileTopics() {
+		return this._techProfileModelService.getTopics();
+	}
+
+	getLineItemsOfTheSelectedTechProfileTopic() {
+		return this._techProfileModelService.getLineItemsForATopic(this.techProfileTopicFilter['id']);
+	}
+
+	getFilterValue(obj) {
+		return obj && obj['id'];
+	}
+
+	techProfileTopicFilterIsSet() {
+		return !!this.techProfileTopicFilter;
+	}
+
+	onTopicFilterChange(evt) {
+		if (evt.target.value) {
+			this.techProfileTopicFilter = this._techProfileModelService.getTopics().find((t) => t['id'] === evt.target.value);
+
+			this._questionsService.getByTopic(this.techProfileTopicFilter['id']).then((qArr) => {
+				this.questions = this.setIsSelected(qArr, this.labour['questions']);
+			})
+		}
+	}
+
+	onLineItemFilterChange(evt) {
+		if (evt.target.value) {		
+			this.techProfileLineItemFilter = this._techProfileModelService.getLineItemsForATopic(this.techProfileTopicFilter['id']).find((li) => li['id'] === evt.target.value);
+
+			this._questionsService.getByLineItem(this.techProfileLineItemFilter['id']).then((qArr) => {
+				this.questions = this.setIsSelected(qArr, this.labour['questions']);
+			})
+		}
+	}
+
+	isSaveBtnEnabled() {
+		return this.isDirty() && this.questions.find((question) => question && question['isSelected']);
 	}
 
 	onSaveBtnClick() {
@@ -88,5 +136,26 @@ export class EditPage implements OnInit {
 			this.labour = labour;
 			this.dirty = false;
 		})
+	}
+
+	onCancelBtnClick() {
+		this._location.back();
+	}
+
+	isResetFilterBtnEnabled() {
+		return !!this.selectedTopicFilterValue;
+	}
+
+	onResetFilterBtnClick() {
+		this.techProfileTopicFilter = undefined;
+		this.techProfileLineItemFilter = undefined;
+
+		this.selectedTopicFilterValue = undefined;
+		this.selectedLineItemFilterValue = undefined;
+
+		let self = this;
+		self._questionsService.getAllQuestions().then((allQuestions: [{}]) => {
+			self.questions = self.setIsSelected(allQuestions, self.labour['questions']);
+		});
 	}
 }
