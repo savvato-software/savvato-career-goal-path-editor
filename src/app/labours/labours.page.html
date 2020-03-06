@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>labours</ion-title>
+    <ion-title>List of all Labours</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<span *ngFor="let l of getAllLabours()" (click)="onLabourClick(l)">{{l.name}}</span>
+<ion-item *ngFor="let l of getAllLabours()" (click)="onLabourClick(l)">{{l.name}}</ion-item>
 
 <ion-content>
 	<ion-button class="" (click)="onNewLabourBtnClick()">New Labour</ion-button>	

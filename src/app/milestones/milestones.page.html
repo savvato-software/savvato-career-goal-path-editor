@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>milestones</ion-title>
+    <ion-title>List of all Milestones</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<span *ngFor="let m of getAllMilestones()" (click)="onMilestoneClick(m)">{{m.name}}</span>
+<ion-item *ngFor="let m of getAllMilestones()" (click)="onMilestoneClick(m)">{{m.name}}</ion-item>
 
 <ion-content>
 	<ion-button class="" (click)="onNewMilestoneBtnClick()">New Milestone</ion-button>	

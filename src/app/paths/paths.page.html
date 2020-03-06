@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>paths</ion-title>
+    <ion-title>List of all Paths</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<span *ngFor="let p of getAllPaths()" (click)="onPathClick(p)">{{p.name}}</span>
+<ion-item *ngFor="let p of getAllPaths()" (click)="onPathClick(p)">{{p.name}}</ion-item>
 
 <ion-content>
 	<ion-button class="" (click)="onNewPathBtnClick()">New Path</ion-button>	

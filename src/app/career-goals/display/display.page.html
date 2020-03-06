@@ -1,24 +1,37 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>display</ion-title>
-  </ion-toolbar>
+	<ion-toolbar>
+		<ion-title>Career Goal</ion-title>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
 	<ion-card>
 		<ion-card-header>
-		    <ion-card-title>Career Goal: </ion-card-title>
-		    <ion-card-title>{{getCareerGoalName()}}</ion-card-title>
+			<ion-card-title>Name: {{getCareerGoalName()}}</ion-card-title>
 			<ion-button class="" (click)="onEditCareerGoalBtnClick()">Edit</ion-button>
-		</ion-card-header>
-		<ion-card-content class="purpleBackground" *ngFor="let path of getCareerGoalPaths()">
+		<ion-item>
+			<ion-label>Collapse To Level</ion-label>
+			<ion-select placeholder="Select One" slot="start" interface="popover" [(ngModel)]="selectedCollapseToLevel" (ionChange)="onCollapseToLevelChange($event)">
+				<ion-select-option value="1">Career Goal</ion-select-option>
+				<ion-select-option value="2">Path</ion-select-option>
+				<ion-select-option value="3">Milestone</ion-select-option>
+				<ion-select-option value="4">Labour</ion-select-option>
+				<ion-select-option value="5">Full Detail</ion-select-option>
+			</ion-select>
+		</ion-item>
+
+
+	</ion-card-header>
+	<ion-card-content class="orangeBackground" *ngFor="let cg of getCareerGoal()">
+		<span class="pathName">{{getCareerGoalName()}}</span>
+		<ion-card-content class="purpleBackground" *ngFor="let path of getCareerGoalPaths(cg)">
 			<span class="pathName">{{path['name']}}</span><br/>
-			<ion-card-content class="greenBackground" *ngFor="let milestone of path['milestones']">
+			<ion-card-content class="greenBackground" *ngFor="let milestone of getMilestonesFromPath(path)">
 				<span class="milestoneName">{{milestone['name']}}</span><br/>
-				<ion-card-content class="yellowBackground" *ngFor="let labour of milestone['labours']">
+				<ion-card-content class="yellowBackground" *ngFor="let labour of getLaboursFromMilestone(milestone)">
 					<ion-card-content class="blueBackground">
 						<span class="labourName">{{labour['name']}}</span><br/>
-						<span class="questionText" *ngFor="let q of labour['questions']" (click)="onQuestionClicked(q)">
+						<span class="questionText" *ngFor="let q of getQuestionsFromLabour(labour)" (click)="onQuestionClicked(q)">
 							{{ q.text }}<br/>
 							{{ q.description }}<br/>
 							<br/><br/>
@@ -27,6 +40,7 @@
 				</ion-card-content>
 			</ion-card-content>
 		</ion-card-content>
-	</ion-card>
+	</ion-card-content>
+</ion-card>
 
 </ion-content>

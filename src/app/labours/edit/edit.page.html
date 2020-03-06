@@ -2,14 +2,14 @@
 	<ion-toolbar>
 		<ion-title>Edit Labour</ion-title>
 		<ion-item>
-			<ion-label>Topic</ion-label>
-			<ion-select placeholder="Select One" interface="popover" [(ngModel)]="selectedTopicFilterValue" (ionChange)="onTopicFilterChange($event)">
+			<ion-label>Tech Profile Topic Filter</ion-label>
+			<ion-select placeholder="Select One" slot="start" interface="popover" [(ngModel)]="selectedTopicFilterValue" (ionChange)="onTopicFilterChange($event)">
 				<ion-select-option *ngFor="let topic of getTechProfileTopics()" [value]="getFilterValue(topic)">{{topic.name}}</ion-select-option>
 			</ion-select>
 		</ion-item>
 		<ion-item *ngIf="techProfileTopicFilterIsSet()">
-			<ion-label>Line Item</ion-label>
-			<ion-select placeholder="Select One" interface="popover" (ionChange)="onLineItemFilterChange($event)">
+			<ion-label>...Line Item Filter</ion-label>
+			<ion-select placeholder="Select One"  slot="start" interface="popover" (ionChange)="onLineItemFilterChange($event)">
 				<ion-select-option *ngFor="let lineitem of getLineItemsOfTheSelectedTechProfileTopic()" [value]="getFilterValue(lineitem)">{{lineitem.name.substring(0,35)}}</ion-select-option>
 			</ion-select>
 		</ion-item>
@@ -21,7 +21,7 @@
 
 <ion-content>
 	<ion-item>
-		<ion-label position="floating">Name:</ion-label>
+		<ion-label position="floating">Labour Name:</ion-label>
 		<ion-input data-test="labour-edit-input" (ionInput)="onNameChange($event)" [value]="getLabourName()" required></ion-input>
 	</ion-item>
 	<hr>

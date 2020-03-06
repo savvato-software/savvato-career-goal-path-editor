@@ -1,23 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>display</ion-title>
+    <ion-title>Labour</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 	<ion-card>
 		<ion-card-header>
-		    <ion-card-title>Labour: </ion-card-title>
-		    <ion-card-title>{{getLabourName()}}</ion-card-title>
+		    <ion-card-title>Name: {{getLabourName()}}</ion-card-title>
 			<ion-button class="" (click)="onEditLabourBtnClick()">Edit</ion-button>
 		</ion-card-header>
 
+		These are the questions associated with this Labour:<br/><br/>
 		<ion-card-content class="blueBackground">
-			<span class="questionText" *ngFor="let q of getQuestions()" (click)="onQuestionClicked(q)">
+			<ion-card class="questionText" *ngFor="let q of getQuestions()" (click)="onQuestionClicked(q)">
 				{{ q.text }}<br/>
 				{{ q.description }}<br/>
 				<br/><br/>
-			</span>
+			</ion-card>
 		</ion-card-content>
 	</ion-card>
 
