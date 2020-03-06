@@ -14,13 +14,15 @@
 			<ion-card-content class="yellowBackground" *ngFor="let labour of getLabours()">
 				<ion-card-content class="blueBackground">
 					<span class="labourName">{{labour['name']}}</span><br/>
-					<span class="questionText" *ngFor="let q of labour['questions']" (click)="onQuestionClicked(q)">
+					<ion-item class="questionText" *ngFor="let q of labour['questions']" (click)="onQuestionClicked(q)">
 						{{ q.text }}<br/>
 						{{ q.description }}<br/>
-						<br/><br/>
-					</span>
+					</ion-item>
 			</ion-card-content>
 		</ion-card-content>
 	</ion-card>
 
 </ion-content>
+<ion-footer>
+	<ion-button class="" (click)="onBackBtnClick()">Back</ion-button>
+</ion-footer>

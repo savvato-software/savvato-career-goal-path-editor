@@ -25,12 +25,12 @@
 	<ion-card-content class="orangeBackground" *ngFor="let cg of getCareerGoal()">
 		<span class="pathName">{{getCareerGoalName()}}</span>
 		<ion-card-content class="purpleBackground" *ngFor="let path of getCareerGoalPaths(cg)">
-			<span class="pathName">{{path['name']}}</span><br/>
+			<span class="pathName" (click)="onPathNameClick(path)">{{path['name']}}</span><br/>
 			<ion-card-content class="greenBackground" *ngFor="let milestone of getMilestonesFromPath(path)">
-				<span class="milestoneName">{{milestone['name']}}</span><br/>
+				<span class="milestoneName" (click)="onMilestoneNameClick(milestone)">{{milestone['name']}}</span><br/>
 				<ion-card-content class="yellowBackground" *ngFor="let labour of getLaboursFromMilestone(milestone)">
 					<ion-card-content class="blueBackground">
-						<span class="labourName">{{labour['name']}}</span><br/>
+						<span class="labourName" (click)="onLabourNameClick(labour)">{{labour['name']}}</span><br/>
 						<span class="questionText" *ngFor="let q of getQuestionsFromLabour(labour)" (click)="onQuestionClicked(q)">
 							{{ q.text }}<br/>
 							{{ q.description }}<br/>

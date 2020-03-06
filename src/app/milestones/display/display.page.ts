@@ -47,4 +47,8 @@ export class DisplayPage implements OnInit {
 	onEditMilestoneBtnClick() {
 		this._router.navigate(['/milestones/edit/' + this.milestoneId]);
 	}
+
+	onBackBtnClick() {
+		this._location.back();
+	}
 }

@@ -14,8 +14,6 @@ export class DisplayPage implements OnInit {
 	careerGoal = undefined;
 	careerGoalId = undefined;
 
-	selectedCollapseToLevel = 5;
-
 	constructor(private _location: Location,
 		    private _router: Router,
 		    private _route: ActivatedRoute,
@@ -82,11 +80,23 @@ export class DisplayPage implements OnInit {
 			return [ ];
 		}
 	}
-
+	
+	selectedCollapseToLevel = this.LEVEL_LABOURS;
 	myLevelIsShowing(myLevel) {
 		return this.selectedCollapseToLevel * 1.0 >= myLevel;
 	}
 
+	onPathNameClick(path) {
+		this._router.navigate(['/paths/display/' + path['id']]);
+	}
+
+	onMilestoneNameClick(milestone) {
+		this._router.navigate(['/milestones/display/' + milestone['id']]);
+	}
+
+	onLabourNameClick(labour) {
+		this._router.navigate(['/labours/display/' + labour['id']]);
+	}
 
 	onEditCareerGoalBtnClick() {
 		this._router.navigate(['/career-goals/edit/' + this.careerGoalId]);

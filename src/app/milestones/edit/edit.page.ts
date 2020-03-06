@@ -89,4 +89,8 @@ export class EditPage implements OnInit {
 			this.dirty = false;
 		})
 	}
+
+	onCancelBtnClick() {
+		this._location.back();
+	}
 }

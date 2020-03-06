@@ -47,4 +47,8 @@ export class DisplayPage implements OnInit {
 	onEditPathBtnClick() {
 		this._router.navigate(['/paths/edit/' + this.pathId]);
 	}
+
+	onBackBtnClick() {
+		this._location.back();
+	}
 }

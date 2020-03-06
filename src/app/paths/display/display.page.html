@@ -1,14 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>display</ion-title>
+    <ion-title>Paths</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 	<ion-card>
 		<ion-card-header>
-		    <ion-card-title>Path: </ion-card-title>
-		    <ion-card-title>{{getPathName()}}</ion-card-title>
+		    <ion-card-title>Name: {{getPathName()}}</ion-card-title>
 			<ion-button class="" (click)="onEditPathBtnClick()">Edit</ion-button>
 		</ion-card-header>
 
@@ -28,3 +27,6 @@
 	</ion-card>
 
 </ion-content>
+<ion-footer>
+	<ion-button class="" (click)="onBackBtnClick()">Back</ion-button>
+</ion-footer>

@@ -47,4 +47,8 @@ export class DisplayPage implements OnInit {
 	onEditLabourBtnClick() {
 		this._router.navigate(['/labours/edit/' + this.labourId]);
 	}
+
+	onBackBtnClick() {
+		this._location.back();
+	}
 }
