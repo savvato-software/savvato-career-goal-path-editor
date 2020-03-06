@@ -7,19 +7,18 @@
 <ion-content>
 	<ion-card>
 		<ion-card-header>
-		    <ion-card-title>Name: {{getPathName()}}</ion-card-title>
+			<ion-card-title>Name: {{getPathName()}}</ion-card-title>
 			<ion-button class="" (click)="onEditPathBtnClick()">Edit</ion-button>
 
-		<ion-item>
-			<ion-label>Collapse To Level</ion-label>
-			<ion-select placeholder="Select One" slot="start" interface="popover" [(ngModel)]="selectedCollapseToLevel" (ionChange)="onCollapseToLevelChange($event)">
-				<ion-select-option value="2">Path</ion-select-option>
-				<ion-select-option value="3">Milestone</ion-select-option>
-				<ion-select-option value="4">Labour</ion-select-option>
-				<ion-select-option value="5">Full Detail</ion-select-option>
-			</ion-select>
-		</ion-item>
-
+			<ion-item>
+				<ion-label>Collapse To Level</ion-label>
+				<ion-select placeholder="Select One" slot="start" interface="popover" [(ngModel)]="selectedCollapseToLevel" (ionChange)="onCollapseToLevelChange($event)">
+					<ion-select-option value="2">Path</ion-select-option>
+					<ion-select-option value="3">Milestone</ion-select-option>
+					<ion-select-option value="4">Labour</ion-select-option>
+					<ion-select-option value="5">Full Detail</ion-select-option>
+				</ion-select>
+			</ion-item>
 		</ion-card-header>
 
 		<ion-card-content class="purpleBackground" *ngFor="let path of getPath()">

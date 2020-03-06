@@ -33,7 +33,7 @@ export class DisplayPage implements OnInit {
 	}
 
 	getMilestone() {
-		return this.milestone;
+		return [this.milestone];
 	}
 
 	getMilestoneName() {
@@ -42,6 +42,42 @@ export class DisplayPage implements OnInit {
 
 	getLabours() {
 		return this.milestone && this.milestone['labours'];
+	}
+
+	onLabourNameClick(labour) {
+		this._router.navigate(['/labours/display/' + labour['id']]);
+	}
+
+	LEVEL_QUESTION = 5
+	getQuestionsFromLabour(labour){
+		if (labour && this.myLevelIsShowing(this.LEVEL_QUESTION)) {
+			return labour['questions'];
+		} else {
+			return [ ];
+		}
+	}
+
+	LEVEL_LABOURS = 4
+	getLaboursFromMilestone(milestone) {
+		if (milestone && this.myLevelIsShowing(this.LEVEL_LABOURS)) {
+			return milestone['labours'];
+		} else {
+			return [ ];
+		}
+	}
+
+	LEVEL_MILESTONE = 3
+	getMilestonesFromPath(path) {
+		if (path && this.myLevelIsShowing(this.LEVEL_MILESTONE)) {
+			return path['milestones'];
+		} else {
+			return [ ];
+		}
+	}
+
+	selectedCollapseToLevel = this.LEVEL_LABOURS;
+	myLevelIsShowing(myLevel) {
+		return this.selectedCollapseToLevel * 1.0 >= myLevel;
 	}
 
 	onEditMilestoneBtnClick() {

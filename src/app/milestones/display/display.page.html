@@ -7,21 +7,32 @@
 <ion-content>
 	<ion-card>
 		<ion-card-header>
-		    <ion-card-title>Name: {{getMilestoneName()}}</ion-card-title>
+			<ion-card-title>Name: {{getMilestoneName()}}</ion-card-title>
 			<ion-button class="" (click)="onEditMilestoneBtnClick()">Edit</ion-button>
+			<ion-item>
+				<ion-label>Collapse To Level</ion-label>
+				<ion-select placeholder="Select One" slot="start" interface="popover" [(ngModel)]="selectedCollapseToLevel">
+					<ion-select-option value="3">Milestone</ion-select-option>
+					<ion-select-option value="4">Labour</ion-select-option>
+					<ion-select-option value="5">Full Detail</ion-select-option>
+				</ion-select>
+			</ion-item>
 		</ion-card-header>
 
-			<ion-card-content class="yellowBackground" *ngFor="let labour of getLabours()">
+		<ion-card-content class="greenBackground" *ngFor="let milestone of getMilestone()">
+			<span class="milestoneName" (click)="onMilestoneNameClick(milestone)">{{getMilestoneName()}}</span><br/>
+			<ion-card-content class="yellowBackground" *ngFor="let labour of getLaboursFromMilestone(milestone)">
 				<ion-card-content class="blueBackground">
-					<span class="labourName">{{labour['name']}}</span><br/>
-					<ion-item class="questionText" *ngFor="let q of labour['questions']" (click)="onQuestionClicked(q)">
+					<span class="labourName" (click)="onLabourNameClick(labour)">{{labour['name']}}</span><br/>
+					<span class="questionText" *ngFor="let q of getQuestionsFromLabour(labour)" (click)="onQuestionClicked(q)">
 						{{ q.text }}<br/>
 						{{ q.description }}<br/>
-					</ion-item>
+						<br/><br/>
+					</span>
+				</ion-card-content>
 			</ion-card-content>
 		</ion-card-content>
 	</ion-card>
-
 </ion-content>
 <ion-footer>
 	<ion-button class="" (click)="onBackBtnClick()">Back</ion-button>
