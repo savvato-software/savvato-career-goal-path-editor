@@ -19,9 +19,8 @@
 				<ion-select-option value="5">Full Detail</ion-select-option>
 			</ion-select>
 		</ion-item>
-
-
 	</ion-card-header>
+	
 	<ion-card-content class="orangeBackground" *ngFor="let cg of getCareerGoal()">
 		<span class="pathName">{{getCareerGoalName()}}</span>
 		<ion-card-content class="purpleBackground" *ngFor="let path of getCareerGoalPaths(cg)">

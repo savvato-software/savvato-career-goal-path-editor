@@ -33,7 +33,7 @@ export class DisplayPage implements OnInit {
 	}
 
 	getPath() {
-		return this.path;
+		return [this.path];
 	}
 
 	getPathName() {
@@ -42,6 +42,55 @@ export class DisplayPage implements OnInit {
 
 	getPathMilestones() {
 		return this.path && this.path['milestones'];
+	}
+
+	LEVEL_QUESTION = 5
+	getQuestionsFromLabour(labour){
+		if (labour && this.myLevelIsShowing(this.LEVEL_QUESTION)) {
+			return labour['questions'];
+		} else {
+			return [ ];
+		}
+	}
+
+	LEVEL_LABOURS = 4
+	getLaboursFromMilestone(milestone) {
+		if (milestone && this.myLevelIsShowing(this.LEVEL_LABOURS)) {
+			return milestone['labours'];
+		} else {
+			return [ ];
+		}
+	}
+
+	LEVEL_MILESTONE = 3
+	getMilestonesFromPath(path) {
+		if (path && this.myLevelIsShowing(this.LEVEL_MILESTONE)) {
+			return path['milestones'];
+		} else {
+			return [ ];
+		}
+	}
+
+	LEVEL_PATHS = 2
+	getCareerGoalPaths(cg) {
+		if (cg && this.myLevelIsShowing(this.LEVEL_PATHS)) {
+			return cg['paths']
+		} else {
+			return [ ];
+		}
+	}
+	
+	selectedCollapseToLevel = this.LEVEL_LABOURS;
+	myLevelIsShowing(myLevel) {
+		return this.selectedCollapseToLevel * 1.0 >= myLevel;
+	}
+
+	onMilestoneNameClick(milestone) {
+		this._router.navigate(['/milestones/display/' + milestone['id']]);
+	}
+
+	onLabourNameClick(labour) {
+		this._router.navigate(['/labours/display/' + labour['id']]);
 	}
 
 	onEditPathBtnClick() {
