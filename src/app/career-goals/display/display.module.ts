@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { DisplayPageRoutingModule } from './display-routing.module';
 
+import { SavvatoCareerpathComponentModule } from '@savvato-software/savvato-careerpath-component'
+
 import { DisplayPage } from './display.page';
 
 @NgModule({
@@ -13,7 +15,8 @@ import { DisplayPage } from './display.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DisplayPageRoutingModule
+    DisplayPageRoutingModule,
+    SavvatoCareerpathComponentModule
   ],
   declarations: [DisplayPage]
 })

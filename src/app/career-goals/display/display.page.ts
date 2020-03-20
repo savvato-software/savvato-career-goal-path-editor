@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { FunctionPromiseService } from '@savvato-software/savvato-javascript-services';
 import { CareerGoalService } from '../_services/career-goal.service'
+
+import { environment } from '../../../_environments/environment';
 
 @Component({
   selector: 'app-display',
@@ -14,10 +17,13 @@ export class DisplayPage implements OnInit {
 	careerGoal = undefined;
 	careerGoalId = undefined;
 
+	funcKey = undefined;
+
 	constructor(private _location: Location,
-		    private _router: Router,
-		    private _route: ActivatedRoute,
-		    private _careerGoalService: CareerGoalService) {
+			    private _router: Router,
+			    private _route: ActivatedRoute,
+			    private _functionPromiseService: FunctionPromiseService,
+			    private _careerGoalService: CareerGoalService) {
 
 	}
 
@@ -29,74 +35,41 @@ export class DisplayPage implements OnInit {
 			self._careerGoalService.getCareerGoalById(self.careerGoalId).then((careerGoal) => {
 				self.careerGoal = careerGoal;
 			})
+
+			self._functionPromiseService.initFunc(self.funcKey, () => {
+				return new Promise((resolve, reject) => {
+						resolve({
+							getEnv: () => {
+								return environment;
+							},
+							getCareerGoalProviderFunction: () => {
+								return self.careerGoal;
+							}
+						})
+					})
+				})
 		})
+	}
+
+	getCareerGoalPathComponentController() {
+		return this._functionPromiseService.waitAndGet(this.funcKey, this.funcKey, { });
 	}
 
 	getCareerGoalName() {
 		return this.careerGoal && this.careerGoal['name']
 	}
 
-	LEVEL_QUESTION = 5
-	getQuestionsFromLabour(labour){
-		if (labour && this.myLevelIsShowing(this.LEVEL_QUESTION)) {
-			return labour['questions'];
-		} else {
-			return [ ];
-		}
-	}
+	// onPathNameClick(path) {
+	// 	this._router.navigate(['/paths/display/' + path['id']]);
+	// }
 
-	LEVEL_LABOURS = 4
-	getLaboursFromMilestone(milestone) {
-		if (milestone && this.myLevelIsShowing(this.LEVEL_LABOURS)) {
-			return milestone['labours'];
-		} else {
-			return [ ];
-		}
-	}
+	// onMilestoneNameClick(milestone) {
+	// 	this._router.navigate(['/milestones/display/' + milestone['id']]);
+	// }
 
-	LEVEL_MILESTONE = 3
-	getMilestonesFromPath(path) {
-		if (path && this.myLevelIsShowing(this.LEVEL_MILESTONE)) {
-			return path['milestones'];
-		} else {
-			return [ ];
-		}
-	}
-
-	LEVEL_PATHS = 2
-	getCareerGoalPaths(cg) {
-		if (cg && this.myLevelIsShowing(this.LEVEL_PATHS)) {
-			return cg['paths']
-		} else {
-			return [ ];
-		}
-	}
-
-	LEVEL_CAREER_GOAL = 1
-	getCareerGoal() {
-		if (this.myLevelIsShowing(this.LEVEL_CAREER_GOAL)) {
-			return [this.careerGoal];
-		} else {
-			return [ ];
-		}
-	}
-	
-	selectedCollapseToLevel = this.LEVEL_LABOURS;
-	myLevelIsShowing(myLevel) {
-		return this.selectedCollapseToLevel * 1.0 >= myLevel;
-	}
-
-	onPathNameClick(path) {
-		this._router.navigate(['/paths/display/' + path['id']]);
-	}
-
-	onMilestoneNameClick(milestone) {
-		this._router.navigate(['/milestones/display/' + milestone['id']]);
-	}
-
-	onLabourNameClick(labour) {
-		this._router.navigate(['/labours/display/' + labour['id']]);
-	}
+	// onLabourNameClick(labour) {
+	// 	this._router.navigate(['/labours/display/' + labour['id']]);
+	// }
 
 	onEditCareerGoalBtnClick() {
 		this._router.navigate(['/career-goals/edit/' + this.careerGoalId]);

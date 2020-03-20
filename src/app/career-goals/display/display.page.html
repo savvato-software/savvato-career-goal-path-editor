@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-	<ion-card>
+<!-- 	<ion-card>
 		<ion-card-header>
 			<ion-card-title>Name: {{getCareerGoalName()}}</ion-card-title>
 			<ion-button class="" (click)="onEditCareerGoalBtnClick()">Edit</ion-button>
@@ -41,5 +41,6 @@
 		</ion-card-content>
 	</ion-card-content>
 </ion-card>
-
+ -->
+ 	<lib-savvato-careerpath-component [ctrl]="getCareerGoalPathComponentController()"></lib-savvato-careerpath-component>
 </ion-content>

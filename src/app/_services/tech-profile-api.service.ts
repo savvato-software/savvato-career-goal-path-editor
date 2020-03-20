@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service'
-import { UserService } from './user.service'
 
 import { environment } from '../../_environments/environment';
 
@@ -9,8 +8,7 @@ import { environment } from '../../_environments/environment';
 })
 export class TechProfileAPIService {
 
-  constructor(private _apiService: ApiService,
-              private _userService: UserService) {
+  constructor(private _apiService: ApiService) {
 
   }
 
@@ -210,6 +208,5 @@ export class TechProfileAPIService {
 
 		return list;
 	}
-
 
 }
