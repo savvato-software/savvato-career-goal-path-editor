@@ -44,6 +44,9 @@ export class DisplayPage implements OnInit {
 							},
 							getCareerGoalProviderFunction: () => {
 								return self.careerGoal;
+							},
+							onPathNameClick: (path) => {
+								this._router.navigate(['/paths/display/' + path['id']]);							
 							}
 						})
 					})
