@@ -45,8 +45,17 @@ export class DisplayPage implements OnInit {
 							getCareerGoalProviderFunction: () => {
 								return self.careerGoal;
 							},
-							onPathNameClick: (path) => {
-								this._router.navigate(['/paths/display/' + path['id']]);							
+							onPathNameClick: (o) => {
+								this._router.navigate(['/paths/display/' + o['id']]);
+							},
+							onMilestoneNameClick: (o) => {
+								this._router.navigate(['/milestones/display/' + o['id']]);
+							},
+							onLabourNameClick: (o) => {
+								this._router.navigate(['/labours/display/' + o['id']]);							
+							},
+							onQuestionClick: (o) => {
+								// this._router.navigate(['/question/display/' + o['id']]);							
 							}
 						})
 					})
@@ -61,18 +70,6 @@ export class DisplayPage implements OnInit {
 	getCareerGoalName() {
 		return this.careerGoal && this.careerGoal['name']
 	}
-
-	// onPathNameClick(path) {
-	// 	this._router.navigate(['/paths/display/' + path['id']]);
-	// }
-
-	// onMilestoneNameClick(milestone) {
-	// 	this._router.navigate(['/milestones/display/' + milestone['id']]);
-	// }
-
-	// onLabourNameClick(labour) {
-	// 	this._router.navigate(['/labours/display/' + labour['id']]);
-	// }
 
 	onEditCareerGoalBtnClick() {
 		this._router.navigate(['/career-goals/edit/' + this.careerGoalId]);
