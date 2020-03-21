@@ -134,11 +134,7 @@ export class EditPage implements OnInit {
 			this.techProfileTopicFilter = this._techProfileModelService.getTopics().find((t) => t['id'] === evt.target.value);
 
 			this._questionsService.getByTopic(this.techProfileTopicFilter['id']).then((qArr: [{}]) => {
-				let list = [];
-				list = list.concat(selectedQuestions);
-				list = list.concat(qArr.filter((q) => !selectedQuestions.map((q1) => q1['id']).includes(q['id'])))
-
-				this.questions = this.setIsSelected(list, this.labour['questions']);				
+				this.questions = this._buildListOfQuestionsMatchingFilter(selectedQuestions, qArr);
 			})
 		}
 	}
@@ -150,13 +146,19 @@ export class EditPage implements OnInit {
 			this.techProfileLineItemFilter = this._techProfileModelService.getLineItemsForATopic(this.techProfileTopicFilter['id']).find((li) => li['id'] === evt.target.value);
 
 			this._questionsService.getByLineItem(this.techProfileLineItemFilter['id']).then((qArr: [{}]) => {
-				let list = [];
-				list.concat(selectedQuestions);
-				list.concat(qArr.filter((q) => !selectedQuestions.map((q1) => q1['id']).includes(q['id'])))
-
-				this.questions = this.setIsSelected(list, this.labour['questions']);				
+				this.questions = this._buildListOfQuestionsMatchingFilter(selectedQuestions, qArr);
 			})
 		}
+	}
+
+	_buildListOfQuestionsMatchingFilter(selectedQuestions, qArr) {
+		let list = [];
+		list = list.concat(selectedQuestions);
+
+		let qArr2 = this.setAnyMatchingQuestionsToSelected(qArr, this.labour['questions']);
+		list = list.concat(qArr2.filter((q) => !selectedQuestions.map((q1) => q1['id']).includes(q['id'])))
+
+		return list;
 	}
 
 	isSaveBtnEnabled() {
