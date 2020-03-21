@@ -171,7 +171,7 @@ export class EditPage implements OnInit {
 	}
 
 	onCancelBtnClick() {
-		this._location.back();
+		this._router.navigate(['/labours/display/' + this.labourId]);
 	}
 
 	isResetFilterBtnEnabled() {

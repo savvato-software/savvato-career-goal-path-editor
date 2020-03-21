@@ -91,6 +91,6 @@ export class EditPage implements OnInit {
 	}
 
 	onCancelBtnClick() {
-		this._location.back();
+		this._router.navigate(['/milestones/display/' + this.milestoneId])
 	}
 }

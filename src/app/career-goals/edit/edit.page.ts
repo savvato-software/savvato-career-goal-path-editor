@@ -90,4 +90,8 @@ export class EditPage implements OnInit {
 			this.dirty = false;
 		})
 	}
+
+	onCancelBtnClick() {
+		this._router.navigate(['/career-goals/display/' + this.careerGoalId]);
+	}
 }
