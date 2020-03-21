@@ -50,7 +50,7 @@ export class EditPage implements OnInit {
 					self.isNew = false;
 
 					self._questionsService.getAllQuestions().then((qArr: [{}]) => {
-						this.questions = this.setIsSelected(qArr, this.labour['questions']);				
+						this.questions = this.setAnyMatchingQuestionsToSelected(qArr, this.labour['questions']);				
 					})
 				});
 			}
@@ -59,7 +59,7 @@ export class EditPage implements OnInit {
 		self._techProfileModelService._init();
 	}
 
-	setIsSelected(array1, array2) {
+	setAnyMatchingQuestionsToSelected(array1, array2) {
 		return array1.map(
 			(val) => { 
 				val['isSelected'] = val['isSelected'] || array2.map((val2) => val2['id']).includes(val['id'])
@@ -196,7 +196,7 @@ export class EditPage implements OnInit {
 			list = list.concat(selectedQuestions);
 			list = list.concat(qArr.filter((q) => !selectedQuestions.map((q1) => q1['id']).includes(q['id'])))
 
-			this.questions = this.setIsSelected(list, this.labour['questions']);				
+			this.questions = this.setAnyMatchingQuestionsToSelected(list, this.labour['questions']);				
 		})
 	}
 }
