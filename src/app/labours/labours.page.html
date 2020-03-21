@@ -4,8 +4,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-item *ngFor="let l of getAllLabours()" (click)="onLabourClick(l)">{{l.name}}</ion-item>
-
 <ion-content>
-	<ion-button class="" (click)="onNewLabourBtnClick()">New Labour</ion-button>	
+	<ion-item *ngFor="let l of getAllLabours()" (click)="onLabourClick(l)">{{l.name}}</ion-item>
 </ion-content>
+
+<ion-footer>
+	<ion-button class="" (click)="onNewLabourBtnClick()">New Labour</ion-button>	
+</ion-footer>
