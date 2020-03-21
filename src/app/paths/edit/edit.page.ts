@@ -79,7 +79,7 @@ export class EditPage implements OnInit {
 		return this.isDirty() && this.milestones.find((path) => path['isSelected']);
 	}
 
-	onPathSelectionChanged(evt) {
+	onMilestoneSelectionChanged(evt) {
 		this.setDirty();
 	}
 
