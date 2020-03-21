@@ -23,8 +23,8 @@ export class LaboursPage implements OnInit {
   ngOnInit() {
 	let self = this;
 	self._route.params.subscribe((params) => {
-		self._laboursService.getAllLabours().then((labours) => {
-			self.labours = labours;
+		self._laboursService.getAllLabours().then((labours: [{}]) => {
+			self.labours = labours.sort((a,b) => { return a['name'].localeCompare(b['name']); });
 		})
 	})
   }

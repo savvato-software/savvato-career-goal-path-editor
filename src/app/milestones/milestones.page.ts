@@ -23,8 +23,8 @@ export class MilestonesPage implements OnInit {
   ngOnInit() {
 	let self = this;
 	self._route.params.subscribe((params) => {
-		self._milestoneService.getAllMilestones().then((milestones) => {
-			self.milestones = milestones;
+		self._milestoneService.getAllMilestones().then((milestones: [{}]) => {
+			self.milestones = milestones.sort((a,b) => { return a['name'].localeCompare(b['name']); });
 		})
 	})
   }

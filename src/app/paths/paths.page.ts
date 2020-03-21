@@ -23,8 +23,8 @@ export class PathsPage implements OnInit {
   ngOnInit() {
 	let self = this;
 	self._route.params.subscribe((params) => {
-		self._pathService.getAllPaths().then((paths) => {
-			self.paths = paths;
+		self._pathService.getAllPaths().then((paths: [{}]) => {
+			self.paths = paths.sort((a,b) => { return a['name'].localeCompare(b['name']); });
 		})
 	})
   }

@@ -23,8 +23,8 @@ export class CareerGoalsPage implements OnInit {
   ngOnInit() {
 	let self = this;
 	self._route.params.subscribe((params) => {
-		self._careerGoalService.getAllCareerGoals().then((careerGoals) => {
-			self.careerGoals = careerGoals;
+		self._careerGoalService.getAllCareerGoals().then((careerGoals: [{}]) => {
+			self.careerGoals = careerGoals.sort((a,b) => { return a['name'].localeCompare(b['name']); });
 		})
 	})
   }
