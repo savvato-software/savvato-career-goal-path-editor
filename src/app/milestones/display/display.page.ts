@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { FunctionPromiseService } from '@savvato-software/savvato-javascript-services';
 import { MilestonesService } from '../../_services/milestones.service'
+
+import { environment } from '../../../_environments/environment';
 
 @Component({
   selector: 'app-display',
@@ -14,10 +17,13 @@ export class DisplayPage implements OnInit {
 	milestone = undefined;
 	milestoneId = undefined;
 
+	funcKey = "milestone-cgcomp-ctrlr"
+
 	constructor(private _location: Location,
 		    private _router: Router,
 		    private _route: ActivatedRoute,
-		    private _milestonesService: MilestonesService) {
+		    private _milestonesService: MilestonesService,
+			private _functionPromiseService: FunctionPromiseService) {
 
 	}
 
@@ -29,55 +35,27 @@ export class DisplayPage implements OnInit {
 			self._milestonesService.getMilestoneById(self.milestoneId).then((milestone) => {
 				self.milestone = milestone;
 			})
+
+			self._functionPromiseService.initFunc(self.funcKey, () => {
+				return new Promise((resolve, reject) => {
+						resolve({
+							getEnv: () => {
+								return environment;
+							},
+							milestoneProviderFunction: () => {
+								return self.milestone;
+							},
+							onLabourNameClick: (o) => {
+								this._router.navigate(['/labours/display/' + o['id']]);							
+							}
+						})
+					})
+				})
 		})
 	}
 
-	getMilestone() {
-		return [this.milestone];
-	}
-
-	getMilestoneName() {
-		return this.milestone && this.milestone['name']
-	}
-
-	getLabours() {
-		return this.milestone && this.milestone['labours'];
-	}
-
-	onLabourNameClick(labour) {
-		this._router.navigate(['/labours/display/' + labour['id']]);
-	}
-
-	LEVEL_QUESTION = 5
-	getQuestionsFromLabour(labour){
-		if (labour && this.myLevelIsShowing(this.LEVEL_QUESTION)) {
-			return labour['questions'];
-		} else {
-			return [ ];
-		}
-	}
-
-	LEVEL_LABOURS = 4
-	getLaboursFromMilestone(milestone) {
-		if (milestone && this.myLevelIsShowing(this.LEVEL_LABOURS)) {
-			return milestone['labours'];
-		} else {
-			return [ ];
-		}
-	}
-
-	LEVEL_MILESTONE = 3
-	getMilestonesFromPath(path) {
-		if (path && this.myLevelIsShowing(this.LEVEL_MILESTONE)) {
-			return path['milestones'];
-		} else {
-			return [ ];
-		}
-	}
-
-	selectedCollapseToLevel = this.LEVEL_LABOURS;
-	myLevelIsShowing(myLevel) {
-		return this.selectedCollapseToLevel * 1.0 >= myLevel;
+	getCareerGoalPathComponentController() {
+		return this._functionPromiseService.waitAndGet(this.funcKey, this.funcKey, { });
 	}
 
 	onEditMilestoneBtnClick() {

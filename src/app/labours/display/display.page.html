@@ -1,26 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Labour</ion-title>
+    <ion-button slot="end" class="" (click)="onEditLabourBtnClick()">Edit</ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<ion-card>
-		<ion-card-header>
-		    <ion-card-title>Name: {{getLabourName()}}</ion-card-title>
-			<ion-button class="" (click)="onEditLabourBtnClick()">Edit</ion-button>
-		</ion-card-header>
-
-		These are the questions associated with this Labour:<br/><br/>
-		<ion-card-content class="blueBackground">
-			<ion-card class="questionText" *ngFor="let q of getQuestions()" (click)="onQuestionClicked(q)">
-				{{ q.text }}<br/>
-				{{ q.description }}<br/>
-				<br/><br/>
-			</ion-card>
-		</ion-card-content>
-	</ion-card>
-
+ 	<lib-savvato-careerpath-component [ctrl]="getCareerGoalPathComponentController()"></lib-savvato-careerpath-component>
 </ion-content>
 <ion-footer>
 	<ion-button class="" (click)="onBackBtnClick()">Back</ion-button>

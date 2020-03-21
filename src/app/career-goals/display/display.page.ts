@@ -17,7 +17,7 @@ export class DisplayPage implements OnInit {
 	careerGoal = undefined;
 	careerGoalId = undefined;
 
-	funcKey = undefined;
+	funcKey = "careerGoalsDisplayCtrlr";
 
 	constructor(private _location: Location,
 			    private _router: Router,
@@ -42,7 +42,7 @@ export class DisplayPage implements OnInit {
 							getEnv: () => {
 								return environment;
 							},
-							getCareerGoalProviderFunction: () => {
+							careerGoalProviderFunction: () => {
 								return self.careerGoal;
 							},
 							onPathNameClick: (o) => {
