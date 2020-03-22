@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { TechProfileAPIService } from './tech-profile-api.service';
-import { SequenceService } from './sequence.service';
+import { SequenceService } from '@savvato-software/savvato-javascript-services';
 
 @Injectable({
   providedIn: 'root'
