@@ -1,5 +1,7 @@
 {
-  "name": "savvato-career-goal-path-editor",
-  "integrations": {},
+  "name": "fezzlydoo",
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

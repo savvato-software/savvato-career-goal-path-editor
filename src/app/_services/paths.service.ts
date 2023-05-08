@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service'
+import { JWTApiService } from "@savvato-software/savvato-javascript-services"
 
 import { environment } from '../../_environments/environment';
 
@@ -8,21 +8,21 @@ import { environment } from '../../_environments/environment';
 })
 export class PathsService {
 
-	constructor(private _apiService: ApiService) { 
+	constructor(private _apiService: JWTApiService) {
 
 	}
 
-	getPathById(id) {
+	getPathById(id: number) {
       let url = environment.apiUrl + "/api/path/" + id;
 
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
+          (data: any) => {
             console.log("Call to getPathById(" + id + ") returned")
             console.log(data)
             resolve(data);
-          }, (err) => {
+          }, (err: any) => {
             reject(err);
           });
         }
@@ -37,11 +37,11 @@ export class PathsService {
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
+          (data: any) => {
             console.log("Call to getAllPaths() returned")
             console.log(data)
             resolve(data);
-          }, (err) => {
+          }, (err: any) => {
             reject(err);
           });
         }
@@ -50,15 +50,15 @@ export class PathsService {
       return rtn;
   }
 
-  save(path, milestoneAssociations) {
+  save(path: any, milestoneAssociations: any) {
     let url = environment.apiUrl + '/api/path/save'
 
     return new Promise(
       (resolve, reject) => {
-        this._apiService.postUnsecuredAPI2(url, {path: path, milestoneassociations: milestoneAssociations}).subscribe(
-          (data) => {
+        this._apiService.postUnsecuredAPI_w_body(url, {path: path, milestoneassociations: milestoneAssociations}).subscribe(
+          (data: any) => {
             resolve(data)
-          }, (err) => {
+          }, (err: any) => {
             reject(err)
           });
       });

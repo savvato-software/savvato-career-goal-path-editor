@@ -4,12 +4,19 @@ export const domainInfo = {
   port: '8080'
 };
 
+export const skillsMatrixDomainInfo = {
+  domain: 'localhost',
+  port: '8081'
+}
+
 export const domainPort = domainInfo.domain + ':' + domainInfo.port;
+export const skillsMatrixDomainPort = skillsMatrixDomainInfo.domain + ':' + skillsMatrixDomainInfo.port;
 
 export const environment = {
   production: false,
   domainPort: domainPort,
-  apiUrl: 'http://' + domainPort
+  apiUrl: 'http://' + domainPort,
+  skillsMatrixApiUrl: 'http://' + skillsMatrixDomainPort
 };
 
 /*

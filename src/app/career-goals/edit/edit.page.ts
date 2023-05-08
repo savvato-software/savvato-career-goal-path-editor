@@ -1,97 +1,100 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Location } from '@angular/common';
 
-import { CareerGoalService } from '../_services/career-goal.service'
+import { CareerGoalService } from '../../_services/career-goal.service'
 import { PathsService } from '../../_services/paths.service'
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.page.html',
   styleUrls: ['./edit.page.scss'],
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule]
 })
 export class EditPage implements OnInit {
 
-	dirty = false;
-	careerGoalId = undefined;
-	careerGoal = undefined;
-	isNew = true;
+  dirty: boolean = false;
+  careerGoalId: number = -1;
+  careerGoal: any = undefined;
+  isNew: boolean = true;
 
-	paths = undefined;
+  paths: any = undefined;
 
-	constructor(private _location: Location,
-			    private _router: Router,
-			    private _route: ActivatedRoute,
-			    private _pathService: PathsService,
-			    private _careerGoalService: CareerGoalService) {
+  constructor(private _router: Router,
+              private _route: ActivatedRoute,
+              private _pathService: PathsService,
+              private _careerGoalService: CareerGoalService) {
 
-	}
+  }
 
-	ngOnInit() {
-		let self = this;
+  ngOnInit() {
+    let self = this;
 
-		self._route.params.subscribe((params) => {
-			self.careerGoalId = params['careerGoalId'];
+    self._route.params.subscribe((params: any) => {
+      self.careerGoalId = params['careerGoalId'];
 
-			self.careerGoal = {id: -1, name: ''};
+      self.careerGoal = {id: -1, name: ''};
 
-			if (self.careerGoalId) { // this is an existing question.. it already has an id.
-				self._careerGoalService.getCareerGoalById(self.careerGoalId).then((cg) => {
-					self.careerGoal = cg;
-					self.isNew = false;
+      if (self.careerGoalId) { // this is an existing question.. it already has an id.
+        self._careerGoalService.getCareerGoalById(self.careerGoalId).then((cg: any) => {
+          self.careerGoal = cg;
+          self.isNew = false;
 
-					self._pathService.getAllPaths().then((paths: [{}]) => {
-						self.paths = paths.map(
-							(p) => { 
-								p['isSelected'] = self.careerGoal['paths']
-									.map((cgp) => cgp['id'])
-									.includes(p['id'])
-								return p;
-							}
-						);
-					});
-				});
-			}
-		});
-	}
+          self._pathService.getAllPaths().then((paths: any) => {
+            self.paths = paths.map(
+              (p: any) => {
+                p['isSelected'] = self.careerGoal['paths']
+                  .map((cgp: any) => cgp['id'])
+                  .includes(p['id'])
+                return p;
+              }
+            );
+          });
+        });
+      }
+    });
+  }
 
-	isDirty() {
-		return this.dirty;
-	}
+  isDirty() {
+    return this.dirty;
+  }
 
-	setDirty() {
-		this.dirty = true;
-	}
+  setDirty() {
+    this.dirty = true;
+  }
 
-	getCareerGoalName() {
-		return this.careerGoal && this.careerGoal["name"];
-	}
+  getCareerGoalName() {
+    return this.careerGoal && this.careerGoal["name"];
+  }
 
-	getPaths() {
-		return this.paths
-	}
+  getPaths() {
+    return this.paths
+  }
 
-	onNameChange(evt) {
-		this.careerGoal["name"] = evt.currentTarget.value;
-		this.setDirty();
-	}
+  onNameChange(evt: any) {
+    this.careerGoal["name"] = evt.currentTarget.value;
+    this.setDirty();
+  }
 
-	isSaveBtnEnabled() {
-		return this.isDirty() && this.paths.find((path) => path['isSelected']);
-	}
+  isSaveBtnEnabled() {
+    return this.isDirty() && this.paths.find((path: any) => path['isSelected']);
+  }
 
-	onPathSelectionChanged(evt) {
-		this.setDirty();
-	}
+  onPathSelectionChanged(evt: any) {
+    this.setDirty();
+  }
 
-	onSaveBtnClick() {
-		this._careerGoalService.save(this.careerGoal, this.paths.filter(p => p['isSelected']).map(p => p['id']).join()).then((careerGoal) => {
-			this.careerGoal = careerGoal;
-			this.dirty = false;
-		})
-	}
+  onSaveBtnClick() {
+    this._careerGoalService.save(this.careerGoal, this.paths.filter((p: any) => p['isSelected']).map((p: any) => p['id']).join()).then((careerGoal) => {
+      this.careerGoal = careerGoal;
+      this.dirty = false;
+    })
+  }
 
-	onCancelBtnClick() {
-		this._router.navigate(['/career-goals/display/' + this.careerGoalId]);
-	}
+  onCancelBtnClick() {
+    this._router.navigate(['/career-goals/display/' + this.careerGoalId]);
+  }
 }

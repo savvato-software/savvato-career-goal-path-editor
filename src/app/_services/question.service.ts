@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service'
+import { JWTApiService } from '@savvato-software/savvato-javascript-services';
 
 import { environment } from '../../_environments/environment';
 
@@ -8,7 +8,7 @@ import { environment } from '../../_environments/environment';
 })
 export class QuestionService {
 
-	constructor(private _apiService: ApiService) {
+	constructor(private _apiService: JWTApiService) {
 
 	}
 
@@ -18,9 +18,9 @@ export class QuestionService {
     let rtn = new Promise(
       (resolve, reject) => {
       this._apiService.getUnsecuredAPI(url).subscribe(
-        (data) => {
+        (data: any) => {
           resolve(data);
-        }, (err) => {
+        }, (err: any) => {
           reject(err);
         });
       }
@@ -29,15 +29,15 @@ export class QuestionService {
     return rtn;
   }
 
-  getLineItemLevelAssociations(questionId) {
+  getLineItemLevelAssociations(questionId: number) {
     let url = environment.apiUrl + "/api/question/" + questionId + "/lineitem/levels";
 
     let rtn = new Promise(
       (resolve, reject) => {
       this._apiService.getUnsecuredAPI(url).subscribe(
-        (data) => {
+        (data: any) => {
           resolve(data);
-        }, (err) => {
+        }, (err: any) => {
           reject(err);
         });
       }
@@ -46,26 +46,29 @@ export class QuestionService {
     return rtn;
   }
 
-  setLineItemLevelAssociations(questionId, lilvassociations) {
+  setLineItemLevelAssociations(questionId: number, lilvassociations: any) {
     let url = environment.apiUrl + "/api/question/" + questionId + "/lineitem/levels";
 
-    let data = '';
+    // let data = '';
+    //
+    // for (var x=0; x < lilvassociations.length; x++) {
+    //   if (x > 0) data += '&';
+    //
+    //   data += 'liId' + x + '=' + lilvassociations[x][0] + '&liVal' + x + '=' + lilvassociations[x][1];
+    // }
+    //
+    // if (data.length > 0)
+    //   data += '&count=' + lilvassociations.length;
 
-    for (var x=0; x < lilvassociations.length; x++) {
-      if (x > 0) data += '&';
-
-      data += 'liId' + x + '=' + lilvassociations[x][0] + '&liVal' + x + '=' + lilvassociations[x][1];
-    }
-
-    if (data.length > 0)
-      data += '&count=' + lilvassociations.length;
+    // @ts-ignore
+    let data = lilvassociations.map(([liId, liValue]) => ({ liId, liValue }));
 
     let rtn = new Promise(
       (resolve, reject) => {
-      this._apiService.postUnsecuredAPI(url, data).subscribe(
-        (data) => {
+      this._apiService.postUnsecuredAPI_w_body(url, data).subscribe(
+        (data: any) => {
           resolve(data);
-        }, (err) => {
+        }, (err: any) => {
           reject(err);
         });
       }
@@ -74,17 +77,17 @@ export class QuestionService {
     return rtn;
   }
 
-  getQuestionById(id) {
+  getQuestionById(id: number) {
       let url = environment.apiUrl + "/api/question/" + id;
 
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
+          (data: any) => {
             console.log("Call to getQuestionById(" + id + ") returned")
             console.log(data)
             resolve(data);
-          }, (err) => {
+          }, (err: any) => {
             reject(err);
           });
         }
@@ -93,15 +96,15 @@ export class QuestionService {
       return rtn;
   }
 
-  getByTopic(topicId) {
+  getByTopic(topicId: number) {
       let url = environment.apiUrl + "/api/techprofile/topic/" + topicId + "/questions";
 
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
+          (data: any) => {
             resolve(data);
-          }, (err) => {
+          }, (err: any) => {
             reject(err);
           });
         }
@@ -110,15 +113,15 @@ export class QuestionService {
       return rtn;
   }
 
-  getByLineItem(lineItemId) {
+  getByLineItem(lineItemId: number) {
       let url = environment.apiUrl + "/api/techprofile/lineitem/" + lineItemId + "/questions";
 
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
+          (data: any) => {
             resolve(data);
-          }, (err) => {
+          }, (err: any) => {
             reject(err);
           });
         }
@@ -127,16 +130,16 @@ export class QuestionService {
       return rtn;
   }
 
-  getByLineItemAndLevel(lineItemId, levelIdx) {
+  getByLineItemAndLevel(lineItemId: number, levelIdx: number) {
       // TODO: Change this to api/techprofile/lineitem/ID/level/ID/questions
       let url = environment.apiUrl + "/api/question/" + lineItemId + "/" + levelIdx;
 
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
+          (data: any) => {
             resolve(data);
-          }, (err) => {
+          }, (err: any) => {
             reject(err);
           });
         }
@@ -145,15 +148,15 @@ export class QuestionService {
       return rtn;
   }
 
-	getUserHistoryForQuestion(userId, questionId) {
+	getUserHistoryForQuestion(userId: number, questionId: number) {
       let url = environment.apiUrl + "/api/user/" + userId + "/question/" + questionId + "/history";
 
       let rtn = new Promise(
         (resolve, reject) => {
         this._apiService.getUnsecuredAPI(url).subscribe(
-          (data) => {
+          (data: any) => {
             resolve(data);
-          }, (err) => {
+          }, (err: any) => {
             reject(err);
           });
         }
@@ -162,22 +165,24 @@ export class QuestionService {
       return rtn;
 	}
 
-  setSessionScore(userId, questionId, sessionId, dataObj) {
+  setSessionScore(userId: number, questionId: number, sessionId: number, dataObj: any) {
       let url = environment.apiUrl + "/api/user/" + userId + "/question/" + questionId + "/history";
-      let data = "sessionId=" + sessionId + "&score=" + dataObj["score"];
+      // let data = "sessionId=" + sessionId + "&score=" + dataObj["score"];
+      //
+      // if (dataObj["comment"])
+      //   data += "&comment=" + dataObj["comment"];
 
-      if (dataObj["comment"]) 
-        data += "&comment=" + dataObj["comment"];
+      let data = {sessionId: sessionId, score: dataObj["score"], comment: dataObj["comment"]};
 
       let rtn = new Promise(
         (resolve, reject) => {
-        this._apiService.postUnsecuredAPI(url, data).subscribe(
-          (data) => { 
+        this._apiService.postUnsecuredAPI_w_body(url, data).subscribe(
+          (data: any) => {
             console.log("Question Session Score Updated!");
             console.log(data);
 
             resolve(data);
-          }, (err) => {
+          }, (err: any) => {
             reject(err);
           });
       });
@@ -185,15 +190,15 @@ export class QuestionService {
       return rtn;
   }
 
-  save(question, lilvassociations) {
+  save(question: any, lilvassociations: any) {
     let url = environment.apiUrl + "/api/question/save";
 
     return new Promise(
       (resolve, reject) => {
-        this._apiService.postUnsecuredAPI2(url, {question: question, lilvassociations: lilvassociations}).subscribe(
-          (data) => {
+        this._apiService.postUnsecuredAPI_w_body(url, {question: question, lilvassociations: lilvassociations}).subscribe(
+          (data: any) => {
             resolve(data)
-          }, (err) => {
+          }, (err: any) => {
             reject(err)
           });
       });

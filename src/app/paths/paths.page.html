@@ -5,9 +5,9 @@
 </ion-header>
 
 <ion-content>
-	<ion-item *ngFor="let p of getAllPaths()" (click)="onPathClick(p)">{{p.name}}</ion-item>
+  <ion-item *ngFor="let p of getAllPaths()" (click)="onPathClick(p)">{{p.name}}</ion-item>
 </ion-content>
 
 <ion-footer>
-	<ion-button class="" (click)="onNewPathBtnClick()">New Path</ion-button>	
+  <ion-button class="" (click)="onNewPathBtnClick()">New Path</ion-button>
 </ion-footer>

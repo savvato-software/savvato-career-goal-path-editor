@@ -1,204 +1,214 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Location } from '@angular/common';
 
-import { LaboursService } from '../../_services/labours.service'
-import { QuestionService } from '../../_services/question.service'
-import { TechProfileModelService } from '../../_services/tech-profile-model.service'
+import { LaboursService } from "../../_services/labours.service";
+import {QuestionService} from "../../_services/question.service";
+import {SkillsMatrixAPIService, SkillsMatrixModelService} from "@savvato-software/savvato-skills-matrix-services";
+import {JWTApiService} from "@savvato-software/savvato-javascript-services";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+
+import { environment } from "../../../_environments/environment";
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.page.html',
   styleUrls: ['./edit.page.scss'],
+  standalone: true,
+  imports: [IonicModule, CommonModule, FormsModule, HttpClientModule],
+  providers: [ LaboursService, QuestionService, SkillsMatrixModelService, SkillsMatrixAPIService, JWTApiService, HttpClient ]
 })
 export class EditPage implements OnInit {
-	dirty = false;
-	isNew = true;
+  dirty: boolean = false;
+  isNew: boolean = true;
 
-	labourId = undefined;
-	labour = undefined;
-	questions = undefined;
+  labourId: number = -1;
+  labour: any = undefined;
+  questions: any = undefined;
 
-	techProfileTopicFilter = undefined;
-	techProfileLineItemFilter = undefined;
+  skillsMatrixTopicFilter: any = undefined;
+  skillsMatrixLineItemFilter: any = undefined;
 
-	selectedTopicFilterValue = undefined;
-	selectedLineItemFilterValue = undefined;
+  selectedTopicFilterValue: any = undefined;
+  selectedLineItemFilterValue: any = undefined;
 
-	onlyShowSelectedFilter = false;
+  onlyShowSelectedFilter: boolean = false;
 
-	constructor(private _location: Location,
-			    private _router: Router,
-			    private _route: ActivatedRoute,
-			    private _questionsService: QuestionService,
-			    private _techProfileModelService: TechProfileModelService,
-			    private _labourService: LaboursService) {
+  constructor(private _router: Router,
+              private _route: ActivatedRoute,
+              private _questionsService: QuestionService,
+              private _skillsMatrixModelService: SkillsMatrixModelService,
+              private _labourService: LaboursService) {
 
-	}
+  }
 
-	ngOnInit() {
-		let self = this;
+  ngOnInit() {
+    let self = this;
 
-		self._route.params.subscribe((params) => {
-			self.labourId = params['labourId'];
+    self._skillsMatrixModelService.setEnvironment(environment);
 
-			self.labour = {id: -1, name: ''};
+    self._route.params.subscribe((params: any) => {
+      self.labourId = params['labourId'];
 
-			if (self.labourId) { // this is an existing question.. it already has an id.
-				self._labourService.getLabourById(self.labourId).then((cg) => {
-					self.labour = cg;
-					self.isNew = false;
+      self.labour = {id: -1, name: ''};
 
-					self._questionsService.getAllQuestions().then((qArr: [{}]) => {
-						this.questions = this.setAnyMatchingQuestionsToSelected(qArr, this.labour['questions']);				
-					})
-				});
-			}
-		});
+      if (self.labourId) { // this is an existing question.. it already has an id.
+        self._labourService.getLabourById(self.labourId).then((cg: any) => {
+          self.labour = cg;
+          self.isNew = false;
 
-		self._techProfileModelService._init();
-	}
+          self._questionsService.getAllQuestions().then((qArr: any) => {
+            this.questions = this.setAnyMatchingQuestionsToSelected(qArr, this.labour['questions']);
+          })
+        });
+      }
+    });
 
-	setAnyMatchingQuestionsToSelected(array1, array2) {
-		return array1.map(
-			(val) => { 
-				val['isSelected'] = val['isSelected'] || array2.map((val2) => val2['id']).includes(val['id'])
-				return val;
-			}
-		);
-	}
+    self._skillsMatrixModelService._init(1, true);
+  }
 
-	isDirty() {
-		return this.dirty;
-	}
+  setAnyMatchingQuestionsToSelected(array1: any, array2: any) {
+    return array1.map(
+      (val: any) => {
+        val['isSelected'] = val['isSelected'] || array2.map((val2: any) => val2['id']).includes(val['id'])
+        return val;
+      }
+    );
+  }
 
-	setDirty() {
-		this.dirty = true;
-	}
+  isDirty() {
+    return this.dirty;
+  }
 
-	getLabourName() {
-		return this.labour && this.labour["name"];
-	}
+  setDirty() {
+    this.dirty = true;
+  }
 
-	getQuestions() {
-		if (this.questions) {
-			let rtn = this.questions.sort((a,b) => {
-				if (a['isSelected'] && !b['isSelected']) {
-					return -1;
-				} else if (!a['isSelected'] && b['isSelected']) {
-					return 1;
-				}
+  getLabourName() {
+    return this.labour && this.labour["name"];
+  }
 
-				return a['text'].localeCompare(b['text'])
-			});
+  getQuestions() {
+    if (this.questions) {
+      let rtn = this.questions.sort((a: any,b: any) => {
+        if (a['isSelected'] && !b['isSelected']) {
+          return -1;
+        } else if (!a['isSelected'] && b['isSelected']) {
+          return 1;
+        }
 
-			if (this.onlyShowSelectedFilter === true) {
-				rtn = rtn.filter((q) => q['isSelected']);
-			}
+        return a['text'].localeCompare(b['text'])
+      });
 
-			return rtn;
-		} else {
-			return [];
-		}
-	}
+      if (this.onlyShowSelectedFilter === true) {
+        rtn = rtn.filter((q: any) => q['isSelected']);
+      }
 
-	onNameChange(evt) {
-		this.labour["name"] = evt.currentTarget.value;
-		this.setDirty();
-	}
+      return rtn;
+    } else {
+      return [];
+    }
+  }
 
-	onQuestionSelectionChanged(evt) {
-		this.setDirty();
-	}
+  onNameChange(evt: any) {
+    this.labour["name"] = evt.currentTarget.value;
+    this.setDirty();
+  }
 
-	getTechProfileTopics() {
-		return this._techProfileModelService.getTopics();
-	}
+  onQuestionSelectionChanged(evt: any) {
+    this.setDirty();
+  }
 
-	getLineItemsOfTheSelectedTechProfileTopic() {
-		return this._techProfileModelService.getLineItemsForATopic(this.techProfileTopicFilter['id']);
-	}
+  getTechProfileTopics() {
+    return this._skillsMatrixModelService.getTopics();
+  }
 
-	getFilterValue(obj) {
-		return obj && obj['id'];
-	}
+  getLineItemsOfTheSelectedTechProfileTopic() {
+    return this._skillsMatrixModelService.getLineItemsForATopic(this.skillsMatrixTopicFilter['id']);
+  }
 
-	techProfileTopicFilterIsSet() {
-		return !!this.techProfileTopicFilter;
-	}
+  getFilterValue(obj: any) {
+    return obj && obj['id'];
+  }
 
-	onTopicFilterChange(evt) {
-		if (evt.target.value) {
-			let selectedQuestions = this.questions.filter((q) => q['isSelected']);
+  skillsMatrixTopicFilterIsSet() {
+    return !!this.skillsMatrixTopicFilter;
+  }
 
-			this.techProfileTopicFilter = this._techProfileModelService.getTopics().find((t) => t['id'] === evt.target.value);
+  onTopicFilterChange(evt: any) {
+    if (evt.target.value) {
+      let selectedQuestions = this.questions.filter((q: any) => q['isSelected']);
 
-			this._questionsService.getByTopic(this.techProfileTopicFilter['id']).then((qArr: [{}]) => {
-				this.questions = this._buildListOfQuestionsMatchingFilter(selectedQuestions, qArr);
-			})
-		}
-	}
+      this.skillsMatrixTopicFilter = this._skillsMatrixModelService.getTopics().find((t: any) => t['id'] === evt.target.value);
 
-	onLineItemFilterChange(evt) {
-		if (evt.target.value) {
-			let selectedQuestions = this.questions.filter((q) => q['isSelected']);
+      this._questionsService.getByTopic(this.skillsMatrixTopicFilter['id']).then((qArr: any) => {
+        this.questions = this._buildListOfQuestionsMatchingFilter(selectedQuestions, qArr);
+      })
+    }
+  }
 
-			this.techProfileLineItemFilter = this._techProfileModelService.getLineItemsForATopic(this.techProfileTopicFilter['id']).find((li) => li['id'] === evt.target.value);
+  onLineItemFilterChange(evt: any) {
+    if (evt.target.value) {
+      let selectedQuestions = this.questions.filter((q: any) => q['isSelected']);
 
-			this._questionsService.getByLineItem(this.techProfileLineItemFilter['id']).then((qArr: [{}]) => {
-				this.questions = this._buildListOfQuestionsMatchingFilter(selectedQuestions, qArr);
-			})
-		}
-	}
+      this.skillsMatrixLineItemFilter = this._skillsMatrixModelService.getLineItemsForATopic(this.skillsMatrixTopicFilter['id']).find((li: any) => li['id'] === evt.target.value);
 
-	_buildListOfQuestionsMatchingFilter(selectedQuestions, qArr) {
-		let list = [];
-		list = list.concat(selectedQuestions);
+      this._questionsService.getByLineItem(this.skillsMatrixLineItemFilter['id']).then((qArr: any) => {
+        this.questions = this._buildListOfQuestionsMatchingFilter(selectedQuestions, qArr);
+      })
+    }
+  }
 
-		let qArr2 = this.setAnyMatchingQuestionsToSelected(qArr, this.labour['questions']);
-		list = list.concat(qArr2.filter((q) => !selectedQuestions.map((q1) => q1['id']).includes(q['id'])))
+  _buildListOfQuestionsMatchingFilter(selectedQuestions: any, qArr: any) {
+    let list: any = [];
+    list = list.concat(selectedQuestions);
 
-		return list;
-	}
+    let qArr2: any = this.setAnyMatchingQuestionsToSelected(qArr, this.labour['questions']);
+    list = list.concat(qArr2.filter((q: any) => !selectedQuestions.map((q1: any) => q1['id']).includes(q['id'])))
 
-	isSaveBtnEnabled() {
-		return this.isDirty() && this.questions.find((question) => question && question['isSelected']);
-	}
+    return list;
+  }
 
-	onSaveBtnClick() {
-		this._labourService.save(this.labour, this.questions.filter(l => l && l['isSelected']).map(l => l['id']).join()).then((labour) => {
-			this.labour = labour;
-			this.dirty = false;
-		})
-	}
+  isSaveBtnEnabled() {
+    return this.isDirty() && this.questions.find((question: any) => question && question['isSelected']);
+  }
 
-	onCancelBtnClick() {
-		this._router.navigate(['/labours/display/' + this.labourId]);
-	}
+  onSaveBtnClick() {
+    this._labourService.save(this.labour, this.questions.filter((l: any) => l && l['isSelected']).map((l: any) => l['id']).join()).then((labour: any) => {
+      this.labour = labour;
+      this.dirty = false;
+    })
+  }
 
-	isResetFilterBtnEnabled() {
-		return !!this.selectedTopicFilterValue;
-	}
+  onCancelBtnClick() {
+    this._router.navigate(['/labours/display/' + this.labourId]);
+  }
 
-	onOnlyShowSelectedFilterBtnClick() {
-		this.onlyShowSelectedFilter = !this.onlyShowSelectedFilter;
-	}
+  isResetFilterBtnEnabled() {
+    return !!this.selectedTopicFilterValue;
+  }
 
-	onResetFilterBtnClick() {
-		this.techProfileTopicFilter = undefined;
-		this.techProfileLineItemFilter = undefined;
+  onOnlyShowSelectedFilterBtnClick() {
+    this.onlyShowSelectedFilter = !this.onlyShowSelectedFilter;
+  }
 
-		this.selectedTopicFilterValue = undefined;
-		this.selectedLineItemFilterValue = undefined;
+  onResetFilterBtnClick() {
+    this.skillsMatrixTopicFilter = undefined;
+    this.skillsMatrixLineItemFilter = undefined;
 
-		let self = this;
-		let selectedQuestions = this.questions.filter((q) => q['isSelected']);
-		self._questionsService.getAllQuestions().then((qArr: [{}]) => {
-			let list = [];
-			list = list.concat(selectedQuestions);
-			list = list.concat(qArr.filter((q) => !selectedQuestions.map((q1) => q1['id']).includes(q['id'])))
+    this.selectedTopicFilterValue = undefined;
+    this.selectedLineItemFilterValue = undefined;
 
-			this.questions = this.setAnyMatchingQuestionsToSelected(list, this.labour['questions']);				
-		})
-	}
+    let self = this;
+    let selectedQuestions: any = this.questions.filter((q: any) => q['isSelected']);
+    self._questionsService.getAllQuestions().then((qArr: any) => {
+      let list: any = [];
+      list = list.concat(selectedQuestions);
+      list = list.concat(qArr.filter((q: any) => !selectedQuestions.map((q1: any) => q1['id']).includes(q['id'])))
+
+      this.questions = this.setAnyMatchingQuestionsToSelected(list, this.labour['questions']);
+    })
+  }
 }

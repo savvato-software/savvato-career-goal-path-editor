@@ -5,19 +5,19 @@
 </ion-header>
 
 <ion-content>
-	<ion-item>
-		<ion-label position="floating">Name:</ion-label>
-		<ion-input data-test="milestone-edit-input" (ionInput)="onNameChange($event)" [value]="getMilestoneName()" required></ion-input>
-	</ion-item>
-	<hr>
-	<ion-item>Select the Labours which make up this Milestone:</ion-item>
-	<ion-item *ngFor="let labour of getLabours()">
-		<ion-label>{{ labour['name'] }}</ion-label>
-		<ion-checkbox slot="start" (ionFocus)="onLabourSelectionChanged($event)" [(ngModel)]="labour.isSelected"></ion-checkbox>
-	</ion-item>
-	<br/>
+  <ion-item>
+    <ion-label position="floating">Name:</ion-label>
+    <ion-input data-test="milestone-edit-input" (ionInput)="onNameChange($event)" [value]="getMilestoneName()" required></ion-input>
+  </ion-item>
+  <hr>
+  <ion-item>Select the Labours which make up this Milestone:</ion-item>
+  <ion-item *ngFor="let labour of getLabours()">
+    <ion-label>{{ labour['name'] }}</ion-label>
+    <ion-checkbox slot="start" (ionFocus)="onLabourSelectionChanged($event)" [(ngModel)]="labour.isSelected"></ion-checkbox>
+  </ion-item>
+  <br/>
 </ion-content>
 <ion-footer>
-	<ion-button class="" [disabled]="!isSaveBtnEnabled()" (click)="onSaveBtnClick()">Save</ion-button>
-	<ion-button class="" (click)="onCancelBtnClick()">Cancel</ion-button>
+  <ion-button class="" [disabled]="!isSaveBtnEnabled()" (click)="onSaveBtnClick()">Save</ion-button>
+  <ion-button class="" (click)="onCancelBtnClick()">Cancel</ion-button>
 </ion-footer>

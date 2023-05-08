@@ -5,9 +5,9 @@
 </ion-header>
 
 <ion-content>
-	<ion-item *ngFor="let cg of getAllCareerGoals()" (click)="onCareerGoalClick(cg)">{{cg.name}}</ion-item>
+  <ion-item *ngFor="let cg of getAllCareerGoals()" (click)="onCareerGoalClick(cg)">{{cg.name}}</ion-item>
 </ion-content>
 
 <ion-footer>
-	<ion-button class="" (click)="onNewCareerGoalBtnClick()">New Career Goal</ion-button>	
+  <ion-button class="" (click)="onNewCareerGoalBtnClick()">New Career Goal</ion-button>
 </ion-footer>

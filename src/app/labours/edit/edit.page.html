@@ -1,41 +1,41 @@
 <ion-header>
-	<ion-toolbar>
-		<ion-title>Edit Labour</ion-title>
-		<ion-item>
-			<ion-label>Tech Profile Topic Filter</ion-label>
-			<ion-select placeholder="Select One" slot="start" interface="popover" [(ngModel)]="selectedTopicFilterValue" (ionChange)="onTopicFilterChange($event)">
-				<ion-select-option *ngFor="let topic of getTechProfileTopics()" [value]="getFilterValue(topic)">{{topic.name}}</ion-select-option>
-			</ion-select>
-		</ion-item>
-		<ion-item *ngIf="techProfileTopicFilterIsSet()">
-			<ion-label>...Line Item Filter</ion-label>
-			<ion-select placeholder="Select One"  slot="start" interface="popover" (ionChange)="onLineItemFilterChange($event)">
-				<ion-select-option *ngFor="let lineitem of getLineItemsOfTheSelectedTechProfileTopic()" [value]="getFilterValue(lineitem)">{{lineitem.name.substring(0,35)}}</ion-select-option>
-			</ion-select>
-		</ion-item>
-		<ion-button class="" [disabled]="!isResetFilterBtnEnabled()" (click)="onResetFilterBtnClick()">Reset Filter</ion-button>
-		<ion-button *ngIf="!onlyShowSelectedFilter" class="" (click)="onOnlyShowSelectedFilterBtnClick()">Only Show Selected</ion-button>
-		<ion-button *ngIf="onlyShowSelectedFilter" class="" (click)="onOnlyShowSelectedFilterBtnClick()">Show All</ion-button>
-	</ion-toolbar>
+  <ion-toolbar>
+    <ion-title>Edit Labour</ion-title>
+    <ion-item>
+      <ion-label>Tech Profile Topic Filter</ion-label>
+      <ion-select placeholder="Select One" slot="start" interface="popover" [(ngModel)]="selectedTopicFilterValue" (ionChange)="onTopicFilterChange($event)">
+        <ion-select-option *ngFor="let topic of getTechProfileTopics()" [value]="getFilterValue(topic)">{{topic.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="skillsMatrixTopicFilterIsSet()">
+      <ion-label>...Line Item Filter</ion-label>
+      <ion-select placeholder="Select One"  slot="start" interface="popover" (ionChange)="onLineItemFilterChange($event)">
+        <ion-select-option *ngFor="let lineitem of getLineItemsOfTheSelectedTechProfileTopic()" [value]="getFilterValue(lineitem)">{{lineitem.name.substring(0,35)}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button class="" [disabled]="!isResetFilterBtnEnabled()" (click)="onResetFilterBtnClick()">Reset Filter</ion-button>
+    <ion-button *ngIf="!onlyShowSelectedFilter" class="" (click)="onOnlyShowSelectedFilterBtnClick()">Only Show Selected</ion-button>
+    <ion-button *ngIf="onlyShowSelectedFilter" class="" (click)="onOnlyShowSelectedFilterBtnClick()">Show All</ion-button>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<ion-item>
-		<ion-label position="floating">Labour Name:</ion-label>
-		<ion-input data-test="labour-edit-input" (ionInput)="onNameChange($event)" [value]="getLabourName()" required></ion-input>
-	</ion-item>
-	<hr>
-	<ion-item *ngIf="getQuestions().length === 0">
-		<span class="redText">There are no questions which match that filter!</span>
-	</ion-item>
-	<ion-item *ngIf="getQuestions().length > 0">Select the questions which make up this Labour:</ion-item>
-	<ion-item *ngFor="let question of getQuestions()">
-		<ion-label>{{ question['text'] }}</ion-label>
-		<ion-checkbox slot="start" (ionFocus)="onQuestionSelectionChanged($event)" [(ngModel)]="question.isSelected"></ion-checkbox>
-	</ion-item>
-	<br/>
+  <ion-item>
+    <ion-label position="floating">Labour Name:</ion-label>
+    <ion-input data-test="labour-edit-input" (ionInput)="onNameChange($event)" [value]="getLabourName()" required></ion-input>
+  </ion-item>
+  <hr>
+  <ion-item *ngIf="getQuestions().length === 0">
+    <span class="redText">There are no questions which match that filter!</span>
+  </ion-item>
+  <ion-item *ngIf="getQuestions().length > 0">Select the questions which make up this Labour:</ion-item>
+  <ion-item *ngFor="let question of getQuestions()">
+    <ion-label>{{ question['text'] }}</ion-label>
+    <ion-checkbox slot="start" (ionFocus)="onQuestionSelectionChanged($event)" [(ngModel)]="question.isSelected"></ion-checkbox>
+  </ion-item>
+  <br/>
 </ion-content>
 <ion-footer>
-	<ion-button class="" [disabled]="!isSaveBtnEnabled()" (click)="onSaveBtnClick()">Save</ion-button>
-	<ion-button class="" (click)="onCancelBtnClick()">Cancel</ion-button>
+  <ion-button class="" [disabled]="!isSaveBtnEnabled()" (click)="onSaveBtnClick()">Save</ion-button>
+  <ion-button class="" (click)="onCancelBtnClick()">Cancel</ion-button>
 </ion-footer>

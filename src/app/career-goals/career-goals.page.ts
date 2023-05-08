@@ -1,40 +1,51 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 
-import { CareerGoalService } from './_services/career-goal.service'
+import { CareerGoalService } from "../_services/career-goal.service";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import { JWTApiService } from "@savvato-software/savvato-javascript-services";
 
 @Component({
   selector: 'app-career-goals',
   templateUrl: './career-goals.page.html',
   styleUrls: ['./career-goals.page.scss'],
+  standalone: true,
+  imports: [ IonicModule, CommonModule, HttpClientModule ],
+  providers: [CareerGoalService, JWTApiService, HttpClient]
 })
 export class CareerGoalsPage implements OnInit {
 
-	careerGoals = undefined;
+  careerGoals = undefined;
 
-	constructor(private _location: Location,
-		    private _router: Router,
-		    private _route: ActivatedRoute,
-		    private _careerGoalService: CareerGoalService) {
+  constructor(private _router: Router,
+              private _route: ActivatedRoute,
+              private _careerGoalService: CareerGoalService
+  ) {
 
-	}
+  }
 
   ngOnInit() {
-	let self = this;
-	self._route.params.subscribe((params) => {
-		self._careerGoalService.getAllCareerGoals().then((careerGoals: [{}]) => {
-			self.careerGoals = careerGoals.sort((a,b) => { return a['name'].localeCompare(b['name']); });
-		})
-	})
+    let self = this;
+
+    self._route.params.subscribe((params: any) => {
+      self._careerGoalService.getAllCareerGoals().then((careerGoals: any) => {
+        self.careerGoals = careerGoals.sort((a: any,b: any) => { return a['name'].localeCompare(b['name']); });
+      })
+    })
   }
 
   getAllCareerGoals() {
-  	return this.careerGoals;
+    return this.careerGoals;
   }
 
-  onCareerGoalClick(cg) {
-	this._router.navigate(['/career-goals/display/' + cg['id']]);  	
+  onCareerGoalClick(cg: any) {
+    this._router.navigate(['/career-goals/display/' + cg['id']]);
+  }
+
+  onNewCareerGoalBtnClick() {
+    // todo
   }
 
 }

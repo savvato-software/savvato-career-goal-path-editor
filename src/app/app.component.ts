@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, EnvironmentInjector } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  styleUrls: ['app.component.scss'],
+  standalone: true,
+  imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule ]
 })
 export class AppComponent implements OnInit {
+
   public selectedIndex = 0;
   public appPages = [
     {
@@ -34,19 +36,8 @@ export class AppComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar
-  ) {
-    this.initializeApp();
-  }
+  constructor(public environmentInjector: EnvironmentInjector) {
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
   }
 
   ngOnInit() {
